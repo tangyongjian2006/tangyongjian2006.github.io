@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>橘络云服务 · 主页</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="favicon.png">
+
+  <meta name="apple-mobile-web-app-title" content="橘络云服务">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+      font-family: 'Microsoft YaHei', sans-serif;
+      color: #333;
+    }
+
+    .hero-section {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      z-index: 10;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.6), transparent 70%);
+    }
+
+    .hero-container {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background: transparent;
+      border: 4px solid #6BAFD4;
+      box-shadow: 0 0 30px rgba(107, 175, 212, 0.3);
+    }
+
+    /* ✅ 修复后的云朵动画：确保明显左右移动 */
+    @keyframes floatCloud {
+      0% {
+        transform: translateX(-200px) translateY(100vh);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateX(calc(100% + 200px)) translateY(-200px);
+        opacity: 0;
+      }
+    }
+
+    .floating-cloud {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 100px;
+      background: url('cloud-white.png') no-repeat center center;
+      background-size: contain;
+      opacity: 0.8;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+      animation: floatCloud 15s linear infinite;
+      z-index: 2;
+    }
+
+    .floating-cloud:nth-child(2) {
+      width: 150px;
+      height: 80px;
+      animation-delay: 3s;
+      animation-duration: 18s;
+    }
+
+    .floating-cloud:nth-child(3) {
+      width: 180px;
+      height: 90px;
+      animation-delay: 6s;
+      animation-duration: 20s;
+    }
+
+    .header {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      pointer-events: none;
+      text-align: center;
+    }
+
+    .title-img {
+      height: 180px;
+      max-width: 90vw;
+      object-fit: contain;
+      display: block;
+      background: transparent !important;
+      border: none;
+      box-shadow: none;
+    }
+
+    .sidebar {
+      position: absolute;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      z-index: 5;
+    }
+
+    .menu-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .menu-item {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(138, 188, 209, 0.8);
+      border: 2px solid #6BAFD4;
+      box-shadow: 0 0 10px rgba(107, 175, 212, 0.3);
+    }
+
+    .menu-item:hover {
+      transform: scale(1.15) rotate(5deg);
+      background: #AECFEF;
+      box-shadow: 0 0 15px rgba(107, 175, 212, 0.5);
+    }
+
+    .menu-item svg {
+      fill: #6BAFD4;
+      width: 22px;
+      height: 22px;
+    }
+
+    .menu-item:hover svg {
+      fill: #3A8AB6;
+    }
+
+    .menu-label {
+      font-size: 12px;
+      color: #3A8AB6;
+      text-align: center;
+      white-space: nowrap;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    /* 汉堡菜单按钮 */
+    .menu-toggle {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 25;
+      background: rgba(107, 175, 212, 0.8);
+      border: 2px solid #6BAFD4;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(107, 175, 212, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .menu-toggle:hover {
+      background: #AECFEF;
+      transform: scale(1.1);
+    }
+
+    .menu-toggle span {
+      width: 20px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* 弹出菜单 */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 29;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 280px;
+      height: 100vh;
+      background: white;
+      box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+      z-index: 30;
+      transition: right 0.3s ease;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .mobile-menu.active {
+      right: 0;
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile-menu h3 {
+      color: #3A8AB6;
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .menu-close-btn {
+      background: #f1f1f1;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+      color: #999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-menu li {
+      margin: 12px 0;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 10px 15px;
+      color: #333;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.2s;
+      font-weight: 500;
+    }
+
+    .mobile-menu a:hover {
+      background: #f0f8ff;
+      color: #3A8AB6;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu {
+        width: 100%;
+        right: -100%;
+      }
+      .mobile-menu.active {
+        right: 0;
+      }
+    }
+
+    .btn-round {
+      padding: 8px 20px;
+      background: white;
+      color: #666;
+      border: 1px solid #B8D8E8;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 80px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .btn-round:hover {
+      background: #F0F8FF;
+      border-color: #8ABAD9;
+      color: #3A8AB6;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    }
+
+    .btn-round svg {
+      stroke: currentColor;
+      fill: none;
+      width: 14px;
+      height: 14px;
+    }
+
+    .clock-container {
+      position: absolute;
+      top: 28vh;
+      right: 120px;
+      z-index: 15;
+      pointer-events: none;
+      width: 360px;
+      height: auto;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .clock-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.97;
+      border: none;
+      background: transparent !important;
+      object-fit: contain;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .info-card {
+      position: absolute;
+      bottom: 90px;
+      right: 120px;
+      width: 280px;
+      padding: 18px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 1px solid #e5e5e5;
+      line-height: 1.6;
+      z-index: 9;
+      color: #333;
+    }
+
+    .declaration-container {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      width: 300px;
+      height: auto;
+      z-index: 12;
+      pointer-events: none;
+    }
+
+    .declaration-container img {
+      width: 100%;
+      height: auto;
+      opacity: 0.9;
+      filter: contrast(1.3) brightness(1.05);
+      mix-blend-mode: multiply;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(107, 175, 212, 0.15);
+    }
+
+    .action-buttons {
+      position: absolute;
+      bottom: 160px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 16px;
+      z-index: 11;
+    }
+
+    @media (max-width: 1200px) {
+      .hero-container { border-radius: 15px; border: 3px solid #6BAFD4; }
+      .sidebar { left: 20px; gap: 20px; }
+      .menu-item { width: 40px; height: 40px; }
+      .menu-label { font-size: 11px; }
+      .clock-container { top: 33vh; right: 80px; width: 300px; }
+      .info-card { bottom: 80px; right: 80px; width: 240px; }
+      .declaration-container { bottom: 20px; right: 20px; width: 250px; }
+      .action-buttons { gap: 12px; }
+    }
+
+    @media (max-width: 1400px) {
+      .clock-container { top: 30vh; right: 100px; width: 330px; }
+      .info-card { bottom: 85px; right: 100px; width: 260px; }
+      .declaration-container { bottom: 25px; right: 25px; width: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero-section">
+    <div class="hero-container">
+
+      <div class="floating-cloud"></div>
+      <div class="floating-cloud"></div>
+      <div class="floating-cloud"></div>
+
+      <svg class="bg-image" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.9;">
+        <g transform="translate(-200, 150)">
+          <g id="smile-cloud">
+            <image href="cloud-smile.png" x="500" y="300" width="200" height="160" opacity="0.95" preserveAspectRatio="xMidYMid meet"
+              onerror="console.warn('⚠️ cloud-smile.png 未找到！');"/>
+          </g>
+          <rect x="500" y="480" width="50" height="100" rx="8" fill="#FF9AA2">
+            <animate attributeName="height" values="100;90;100;110;100" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="y" values="480;490;480;470;480" dur="3s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="560" y="450" width="50" height="130" rx="8" fill="#FFB7B2">
+            <animate attributeName="height" values="130;120;130;140;130" dur="3.5s" repeatCount="indefinite"/>
+            <animate attributeName="y" values="450;460;450;440;450" dur="3.5s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="620" y="490" width="50" height="90" rx="8" fill="#FFDAC1">
+            <animate attributeName="height" values="90;80;90;100;90" dur="4s" repeatCount="indefinite"/>
+            <animate attributeName="y" values="490;500;490;480;490" dur="4s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="680" y="460" width="50" height="120" rx="8" fill="#E2F0CB">
+            <animate attributeName="height" values="120;110;120;130;120" dur="4.5s" repeatCount="indefinite"/>
+            <animate attributeName="y" values="460;470;460;450;460" dur="4.5s" repeatCount="indefinite"/>
+          </rect>
+        </g>
+        <polygon points="150,120 155,135 170,135 158,145 162,160 150,150 138,160 142,145 130,135 145,135" fill="#AECFEF" opacity="0.8"/>
+        <circle cx="920" cy="320" r="20" fill="#B8D8E8" />
+        <line x1="920" y1="340" x2="920" y2="400" stroke="#B8D8E8" stroke-width="2" />
+      </svg>
+
+      <div class="header">
+        <img src="title.png" alt="橘络云服务" class="title-img"
+          onerror="alert('❌ 找不到 title.png！\n请确保文件名是 title.png 并放在同一目录下。'); this.style.display='none';">
+      </div>
+
+      <div class="sidebar">
+        <div class="menu-group">
+          <div class="menu-item" onclick="window.location.href='index.html'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          </div>
+          <div class="menu-label">应用首页</div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-item" onclick="window.location.href='综合学习平台.html'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+          </div>
+          <div class="menu-label">综合学习平台</div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-item" onclick="window.location.href='接口管理中心.html'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+          </div>
+          <div class="menu-label">接口管理中心</div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-item" onclick="window.location.href='资源下载中心.html'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 2.21 1.79 4 4 4h10c1.1 0 2-.9 2-2v-4c0-.55-.45-1-1-1h-2v-2h2c1.1 0 2-.9 2-2v-2h-2V8h2c1.1 0 2-.9 2-2v-2h-2V4h2c1.1 0 2-.9 2-2v-2h-2V0h-2v2h-2V0h-2v2H8V0H6v2H4V0H2v2c0 1.1.9 2 2 2h2v2H4c-1.1 0-2 .9-2 2v2h2v2H2c-1.1 0-2 .9-2 2v2c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4v-4c0-1.1-.9-2-2-2h-2v2h-2v-2h2c1.1 0 2-.9 2-2v-2z"/></svg>
+          </div>
+          <div class="menu-label">资源下载中心</div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-item" onclick="window.location.href='通知公告中心.html'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          </div>
+          <div class="menu-label">通知公告中心</div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-item" onclick="window.location.href='个人中心.html'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </div>
+          <div class="menu-label">个人中心</div>
+        </div>
+      </div>
+
+      <!-- 替换原关闭按钮为汉堡菜单 -->
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <!-- 弹出导航菜单 -->
+      <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
+      <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+          <h3>橘络云服务</h3>
+          <button class="menu-close-btn" onclick="toggleMenu()">×</button>
+        </div>
+        <ul>
+          <li><a href="index.html">应用查看首页</a></li>
+          <li><a href="综合学习平台.html">综合学习平台</a></li>
+          <li><a href="接口管理中心.html">接口管理中心</a></li>
+          <li><a href="资源下载中心.html">资源下载中心</a></li>
+          <li><a href="通知公告中心.html">通知公告中心</a></li>
+          <li><a href="个人中心.html">个人中心</a></li>
+          <li><a href="毕业设计答辩展示.html">毕业设计答辩展示</a></li>
+          <li><a href="毕业设计声明.html">毕业设计声明</a></li>
+          <li><a href="https://www.wxic.edu.cn/" target="_blank">无锡商院官网</a></li>
+        </ul>
+      </div>
+
+      <div class="action-buttons">
+        <!-- ✅ 仅修改以下三个按钮 -->
+        <button class="btn-round" onclick="showLoginModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          毕业设计详细设计报告
+        </button>
+        <button class="btn-round" onclick="window.location.href='毕业设计答辩展示.html'">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          毕业设计答辩展示
+        </button>
+        <button class="btn-round" onclick="window.location.href='毕业设计声明.html'">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          毕业设计声明
+        </button>
+        <!-- ✅ 修改结束 -->
+      </div>
+
+      <div class="info-card">
+        <p style="margin: 0;">
+          温馨提示：橘络云服务目前只独家支持Microsoft Edge浏览器，其它浏览器会出现界面等问题！
+        </p>
+      </div>
+
+      <div class="clock-container">
+        <img src="clock.png" alt="云时钟"
+          onerror="console.warn('⚠️ clock.png 未找到！');">
+      </div>
+
+      <div class="declaration-container">
+        <img src="声明.png" alt="毕业设计说明"
+          onerror="console.warn('⚠️ 声明.png 未找到，请检查文件路径是否正确，且文件名全为中文\"声明.png\"');">
+      </div>
+
+      <div style="
+        position: absolute;
+        bottom: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid #d0e0e8;
+        border-radius: 12px;
+        padding: 10px 18px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        z-index: 10;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #333;
+        text-align: center;
+        word-wrap: break-word;
+      ">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="wxic.png" alt="校徽" onerror="this.style.display='none';" style="width: 28px; height: 28px;">
+          <span>© 2026-2027 橘络云服务 · 无锡商业职业技术学院汤永健毕业设计</span>
+        </div>
+        <div>
+          <a href="https://www.wxic.edu.cn/" target="_blank" style="
+            color: #3A8AB6;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+          " onmouseover="this.style.color='#2a6b99'" onmouseout="this.style.color='#3A8AB6'">
+            🔗 无锡商业职业技术学院官网
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 登录模态框 -->
+  <div id="loginModal" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+  ">
+    <div style="
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      width: 320px;
+      max-width: 90vw;
+    ">
+      <h3 style="margin: 0 0 16px; text-align: center; color: #3A8AB6;">请输入账号密码</h3>
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; margin-bottom: 4px; font-weight: bold;">账号：</label>
+        <input type="text" id="loginUsername" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px;" placeholder="请输入账号" />
+      </div>
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; margin-bottom: 4px; font-weight: bold;">密码：</label>
+        <input type="password" id="loginPassword" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px;" placeholder="请输入密码" />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="closeLoginModal()" style="flex: 1; padding: 8px; background: #f0f0f0; border: none; border-radius: 6px; cursor: pointer;">取消</button>
+        <button onclick="submitLogin()" style="flex: 1; padding: 8px; background: #3A8AB6; color: white; border: none; border-radius: 6px; cursor: pointer;">登录</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 所有跳转均无需登录验证
+    function navigate(page) {
+      const routes = {
+        home: '../主页/主页.html',
+        game: '../综合学习平台/综合学习平台.html',
+        chat: '../传统网络实训平台/传统网络实训平台.html',
+        trophy: '../云计算实训平台/云计算实训平台.html',
+        chart: '../综合实训平台/综合实训平台.html',
+        users: '../用户中心/用户中心.html',
+        settings: '../手机下载/手机下载.html'
+      };
+
+      const target = routes[page];
+      if (!target) {
+        alert('该功能暂未开放！');
+        return;
+      }
+
+      window.location.href = target;
+      toggleMenu(); // 跳转后自动关闭菜单
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const overlay = document.querySelector('.mobile-menu-overlay');
+      menu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    }
+
+    // 支持按 Esc 关闭菜单
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const menu = document.getElementById('mobileMenu');
+        if (menu.classList.contains('active')) {
+          toggleMenu();
+        }
+      }
+    });
+
+    window.addEventListener('load', () => {
+      const bg = getComputedStyle(document.body).backgroundImage;
+      if (!bg || bg === 'none' || !bg.includes('background.jpg')) {
+        console.error('❌ 背景图未加载！请确认 background.jpg 存在且路径正确。');
+      }
+    });
+
+    // ✅ 新增登录验证逻辑（仅此处修改）
+    function showLoginModal() {
+      document.getElementById('loginModal').style.display = 'flex';
+      document.getElementById('loginUsername').value = '';
+      document.getElementById('loginPassword').value = '';
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').style.display = 'none';
+    }
+
+    function submitLogin() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if (username === '' || password === '') {
+        alert('请输入账号和密码！');
+        return;
+      }
+
+      // ✅ 账号密码已按要求修改，其他未动
+      if (username === 'TS250206tyj' && password === '250206TStyj@') {
+        closeLoginModal();
+        window.location.href = '../毕业设计详细设计报告/毕业设计详细设计报告.html';
+      } else {
+        alert('账号或密码错误！');
+      }
+    }
+
+    // 点击模态框外部关闭
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLoginModal();
+      }
+    });
+  </script>
+</body>
+</html>
