@@ -15,7 +15,6 @@
       font-family: "Microsoft YaHei", sans-serif;
     }
 
-    /* 👇 关键：禁止页面滚动，背景固定 */
     html, body {
       height: 100%;
       overflow: hidden;
@@ -27,7 +26,6 @@
       color: #333;
     }
 
-    /* 🚫 叉号按钮：右上角，不遮挡内容 */
     .close-btn {
       position: fixed;
       top: 10px;
@@ -55,7 +53,6 @@
       border-color: #3498db;
     }
 
-    /* 主容器：直达顶部，占满全屏 */
     .main-container {
       position: fixed;
       top: 0;
@@ -67,11 +64,10 @@
       z-index: 99;
     }
 
-    /* 可滚动区域：顶部留出 50px 防止被叉号遮挡 */
     .scrollable-content {
       flex: 1;
       overflow-y: auto;
-      padding: 50px 20px 80px; /* 上边距 50px，下边距 80px（给按钮留空间） */
+      padding: 50px 20px 80px;
       scrollbar-width: thin;
       scrollbar-color: #ccc transparent;
     }
@@ -85,18 +81,16 @@
       border-radius: 4px;
     }
 
-    /* ✅ 强制每行只显示 2 个公告卡片 */
     .notice-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr); /* ⭐ 关键：永远两列 */
+      grid-template-columns: repeat(2, 1fr);
       gap: 24px;
-      justify-content: center;
-      max-width: 1100px; /* 控制整体宽度，防止卡片过宽 */
-      margin: 0 auto 80px; /* 居中 + 底部留白 */
-      padding: 0 10px; /* 防止小屏贴边 */
+      max-width: 1100px;
+      margin: 0 auto 80px;
+      padding: 0 10px;
+      justify-items: center;
     }
 
-    /* ✅ 卡片保持原始大小和样式 */
     .notice-card {
       background: rgba(255, 255, 255, 0.85);
       border-radius: 14px;
@@ -104,6 +98,9 @@
       box-shadow: 0 6px 16px rgba(0,0,0,0.08);
       transition: transform 0.3s ease;
       border: 1px solid rgba(255, 255, 255, 0.5);
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
     }
 
     .notice-card:hover {
@@ -121,6 +118,7 @@
       font-weight: bold;
       color: #2c3e50;
       margin-bottom: 10px;
+      text-align: center; /* 标题居中 */
     }
 
     .notice-content {
@@ -129,12 +127,14 @@
       line-height: 1.6;
       margin-bottom: 12px;
       white-space: pre-wrap;
+      text-align: left; /* 内容靠左 */
     }
 
     .notice-time {
       font-size: 12px;
       color: #999;
       margin-bottom: 10px;
+      text-align: center;
     }
 
     .attachment-btn {
@@ -146,13 +146,17 @@
       border-radius: 6px;
       font-size: 13px;
       transition: background 0.2s;
+      margin-top: 8px;
+      display: block;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .attachment-btn:hover {
       background: #2980b9;
     }
 
-    /* 底部操作栏：固定在容器最底部 */
     .action-buttons {
       padding: 15px 20px;
       border-top: 1px solid rgba(0,0,0,0.05);
@@ -184,7 +188,6 @@
       background: #c0392b;
     }
 
-    /* Modal */
     .modal {
       display: none;
       position: fixed;
@@ -249,23 +252,19 @@
 </head>
 
 <body>
-  <!-- ✅ 叉号在右上角 -->
   <div class="close-btn" onclick="window.location.href='index.html'">×</div>
 
-  <!-- 主容器直达顶部 -->
   <div class="main-container">
     <div class="scrollable-content">
       <div id="noticeGrid" class="notice-grid"></div>
     </div>
 
-    <!-- 固定底部操作按钮 -->
     <div class="action-buttons">
       <button class="add-notice-btn" onclick="showAddNoticeAuth()">+ 发布公告</button>
       <button class="add-notice-btn delete-btn" onclick="triggerDeleteNotice()">🗑️ 删除公告</button>
     </div>
   </div>
 
-  <!-- 管理员验证模态框 -->
   <div id="authModal" class="modal">
     <div class="modal-content">
       <h3 style="margin-bottom: 16px;">管理员验证</h3>
@@ -282,7 +281,6 @@
     </div>
   </div>
 
-  <!-- 公告编辑模态框 -->
   <div id="noticeModal" class="modal">
     <div class="modal-content">
       <h3 id="modalTitle">发布公告</h3>
@@ -305,20 +303,35 @@
   </div>
 
   <script>
+    // ✅ 顺序：左边是“应用注册”，右边是“橘络云服务”
     let noticeData = [
       {
-        id: 'n1',
-        title: '新功能上线通知',
-        content: '我们已上线全新的API调试工具，支持实时测试、日志追踪与错误分析。\n\n欢迎开发者使用！',
-        time: '2026-02-01',
+        id: 'n_register',
+        title: '平台账号注册以及平台使用规则公告',
+        content: '橘络云服务目前只支持内部人员注册，平台中不支持注册，使用平台时请参考平台使用规则附件使用。',
+        time: '2026-02-09',
         link: 'https://pan.baidu.com/s/1example'
       },
       {
-        id: 'n2',
-        title: '维护计划',
-        content: '为提升系统稳定性，将于2月10日凌晨2:00至4:00进行数据库优化。\n\n期间服务将短暂中断，请提前保存工作。',
-        time: '2026-02-05',
-        link: ''
+        id: 'n_tang',
+        title: '橘络云服务开发公告',
+        content: `橘络云服务现已上线，是个人资料管理与毕业答辩交互平台。平台集成以下核心功能：
+
+• 综合学习平台：提供无锡商院e学堂学习界面，并提供汤永健本人在学习通中开设的课程学习码
+
+• 接口管理中心：提供汤永健同学常用网站的快捷跳转按钮
+
+• 资源下载中心：提供汤永健同学的资源分享下载链接
+
+• 答辩展示专区：用于汤永健同学的毕设成果在线演示  
+
+注意事项：  
+目前仅兼容Microsoft Edge浏览器，其他浏览器可能存在显示异常。  
+
+——平台开发者：汤永健（无锡商业职业技术学院2027届毕业生）  
+专为个人学术管理与毕业答辩开发`,
+        time: '2026-02-01',
+        link: '通知公告附件.html'
       }
     ];
 
@@ -462,7 +475,7 @@
         const index = noticeData.findIndex(n => n.id === editingNoticeId);
         if (index !== -1) noticeData[index] = newNotice;
       } else {
-        noticeData.push(newNotice);
+        noticeData.unshift(newNotice); // 新公告放最前面
       }
 
       closeNoticeModal();
