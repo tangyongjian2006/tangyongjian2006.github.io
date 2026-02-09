@@ -429,6 +429,67 @@
       .info-card { bottom: 85px; right: 100px; width: 260px; }
       .declaration-container { bottom: 25px; right: 25px; width: 280px; }
     }
+
+    /* ==============================
+       手机端精简模式：仅显示指定元素
+       ============================== */
+    @media (max-width: 768px) {
+      /* 隐藏所有非必要元素 */
+      .floating-cloud,
+      svg.bg-image,
+      .clock-container,
+      .info-card,
+      .declaration-container,
+      .hero-container > div:not(.sidebar):not(.menu-toggle):not(.action-buttons):not(.mobile-menu):not(.mobile-menu-overlay):not(.header),
+      .hero-container > :not(.sidebar):not(.menu-toggle):not(.action-buttons):not(.mobile-menu):not(.mobile-menu-overlay):not(.header) {
+        display: none !important;
+      }
+
+      /* 确保标题图容器和图片显示 */
+      .header {
+        display: block !important;
+        top: 20px;
+        transform: translateX(-50%);
+        z-index: 20;
+      }
+
+      .title-img {
+        display: block !important;
+        height: 100px;
+        max-width: 80vw;
+      }
+
+      /* 确保交互元素可见 */
+      .sidebar,
+      .menu-toggle,
+      .action-buttons {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+
+      /* 优化按钮布局 */
+      .action-buttons {
+        bottom: 40vh;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .btn-round {
+        width: 240px;
+        justify-content: center;
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      /* 修复背景 fixed 在部分手机浏览器的问题 */
+      html, body {
+        background-attachment: scroll;
+      }
+    }
   </style>
 </head>
 <body>
@@ -540,7 +601,6 @@
       </div>
 
       <div class="action-buttons">
-        <!-- ✅ 仅修改以下三个按钮 -->
         <button class="btn-round" onclick="showLoginModal()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           毕业设计详细设计报告
@@ -553,12 +613,11 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           毕业设计声明
         </button>
-        <!-- ✅ 修改结束 -->
       </div>
 
       <div class="info-card">
         <p style="margin: 0;">
-          温馨提示：橘络云服务目前只支持PC端访问，移动端需要在QQ内部点击访问！
+          温馨提示：橘络云服务目前只独家支持Microsoft Edge浏览器，其它浏览器会出现界面等问题！
         </p>
       </div>
 
@@ -735,6 +794,4 @@
     });
   </script>
 </body>
-
 </html>
-
