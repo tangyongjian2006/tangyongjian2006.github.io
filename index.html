@@ -3,15 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>橘络云服务 · 主页</title>
+  <title>橘络云服务 · 小汤毕设展示平台</title>
+  <meta name="description" content="橘络云服务是无锡商业职业技术学院汤永健的毕业设计项目，提供综合学习平台、接口管理、资源下载等功能。温馨提示：当前版本仅独家支持 Microsoft Edge 浏览器。">
 
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="favicon.png">
-
-  <meta name="apple-mobile-web-app-title" content="橘络云服务">
-  <meta name="apple-mobile-web-app-capable" content="yes">
 
   <style>
     * {
@@ -54,7 +52,6 @@
       box-shadow: 0 0 30px rgba(107, 175, 212, 0.3);
     }
 
-    /* ✅ 修复后的云朵动画：确保明显左右移动 */
     @keyframes floatCloud {
       0% {
         transform: translateX(-200px) translateY(100vh);
@@ -178,7 +175,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* 汉堡菜单按钮 */
     .menu-toggle {
       position: absolute;
       top: 30px;
@@ -212,7 +208,6 @@
       transition: all 0.3s ease;
     }
 
-    /* 弹出菜单 */
     .mobile-menu-overlay {
       position: fixed;
       top: 0;
@@ -430,22 +425,18 @@
       .declaration-container { bottom: 25px; right: 25px; width: 280px; }
     }
 
-    /* ==============================
-       手机端精简模式：仅显示指定元素
-       ============================== */
+    /* ✅ 手机端专属优化 */
     @media (max-width: 768px) {
-      /* 隐藏所有非必要元素 */
       .floating-cloud,
       svg.bg-image,
       .clock-container,
       .info-card,
       .declaration-container,
-      .hero-container > div:not(.sidebar):not(.menu-toggle):not(.action-buttons):not(.mobile-menu):not(.mobile-menu-overlay):not(.header),
-      .hero-container > :not(.sidebar):not(.menu-toggle):not(.action-buttons):not(.mobile-menu):not(.mobile-menu-overlay):not(.header) {
+      .hero-container > div:not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header),
+      .hero-container > :not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header) {
         display: none !important;
       }
 
-      /* 确保标题图容器和图片显示 */
       .header {
         display: block !important;
         top: 20px;
@@ -459,33 +450,23 @@
         max-width: 80vw;
       }
 
-      /* 确保交互元素可见 */
       .sidebar,
-      .menu-toggle,
-      .action-buttons {
+      .menu-toggle {
         display: flex !important;
         visibility: visible !important;
         opacity: 1 !important;
       }
 
-      /* ✅ 关键修改：三个按钮固定在底部附近，不再居中 */
+      /* ✅ 隐藏三个主操作按钮 */
       .action-buttons {
-        bottom: 120px; /* 距离底部 120px，安全区域之上 */
-        left: 50%;
-        transform: translateX(-50%);
-        flex-direction: column;
-        gap: 12px;
-        align-items: center;
+        display: none !important;
       }
 
-      .btn-round {
-        width: 240px;
-        justify-content: center;
-        padding: 10px;
-        font-size: 14px;
+      /* ✅ 隐藏版权文字 */
+      .copyright-text {
+        display: none !important;
       }
 
-      /* 修复背景 fixed 在部分手机浏览器的问题 */
       html, body {
         background-attachment: scroll;
       }
@@ -536,31 +517,31 @@
 
       <div class="sidebar">
         <div class="menu-group">
-          <div class="menu-item" onclick="window.location.href='index.html'">
+          <div class="menu-item" onclick="checkAuthAndNavigate('index.html')">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
           </div>
           <div class="menu-label">应用首页</div>
         </div>
         <div class="menu-group">
-          <div class="menu-item" onclick="window.location.href='综合学习平台.html'">
+          <div class="menu-item" onclick="checkAuthAndNavigate('综合学习平台.html')">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
           </div>
           <div class="menu-label">综合学习平台</div>
         </div>
         <div class="menu-group">
-          <div class="menu-item" onclick="window.location.href='接口管理中心.html'">
+          <div class="menu-item" onclick="checkAuthAndNavigate('接口管理中心.html')">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
           </div>
           <div class="menu-label">接口管理中心</div>
         </div>
         <div class="menu-group">
-          <div class="menu-item" onclick="window.location.href='资源下载中心.html'">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 2.21 1.79 4 4 4h10c1.1 0 2-.9 2-2v-4c0-.55-.45-1-1-1h-2v-2h2c1.1 0 2-.9 2-2v-2h-2V8h2c1.1 0 2-.9 2-2v-2h-2V4h2c1.1 0 2-.9 2-2v-2h-2V0h-2v2h-2V0h-2v2H8V0H6v2H4V0H2v2c0 1.1.9 2 2 2h2v2H4c-1.1 0-2 .9-2 2v2h2v2H2c-1.1 0-2 .9-2 2v2c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4v-4c0-1.1-.9-2-2-2h-2v2h-2v-2h2c1.1 0 2-.9 2-2v-2z"/></svg>
+          <div class="menu-item" onclick="checkAuthAndNavigate('资源下载中心.html')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 2.21 1.79 4 4 4h10c1.1 0 2-.9 2-2v-4c0-.55-.45-1-1-1h-2v-2h2c1.1 0 2-.9 2-2v-2h-2V8h2c1.1 0 2-.9 2-2v-2h-2V4h2c1.1 0 2-.9 2-2v-2h-2V0h-2v2H8V0H6v2H4V0H2v2c0 1.1.9 2 2 2h2v2H4c-1.1 0-2 .9-2 2v2h2v2H2c-1.1 0-2 .9-2 2v2c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4v-4c0-1.1-.9-2-2-2h-2v2h-2v-2h2c1.1 0 2-.9 2-2v-2z"/></svg>
           </div>
           <div class="menu-label">资源下载中心</div>
         </div>
         <div class="menu-group">
-          <div class="menu-item" onclick="window.location.href='通知公告中心.html'">
+          <div class="menu-item" onclick="checkAuthAndNavigate('通知公告中心.html')">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
           </div>
           <div class="menu-label">通知公告中心</div>
@@ -573,14 +554,12 @@
         </div>
       </div>
 
-      <!-- 替换原关闭按钮为汉堡菜单 -->
       <div class="menu-toggle" onclick="toggleMenu()">
         <span></span>
         <span></span>
         <span></span>
       </div>
 
-      <!-- 弹出导航菜单 -->
       <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
       <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
@@ -588,14 +567,14 @@
           <button class="menu-close-btn" onclick="toggleMenu()">×</button>
         </div>
         <ul>
-          <li><a href="index.html">应用查看首页</a></li>
-          <li><a href="综合学习平台.html">综合学习平台</a></li>
-          <li><a href="接口管理中心.html">接口管理中心</a></li>
-          <li><a href="资源下载中心.html">资源下载中心</a></li>
-          <li><a href="通知公告中心.html">通知公告中心</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('index.html'); return false;">应用查看首页</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('综合学习平台.html'); return false;">综合学习平台</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('接口管理中心.html'); return false;">接口管理中心</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('资源下载中心.html'); return false;">资源下载中心</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('通知公告中心.html'); return false;">通知公告中心</a></li>
           <li><a href="个人中心.html">个人中心</a></li>
-          <li><a href="毕业设计答辩展示.html">毕业设计答辩展示</a></li>
-          <li><a href="毕业设计声明.html">毕业设计声明</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('毕业设计答辩展示.html'); return false;">毕业设计答辩展示</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('毕业设计声明.html'); return false;">毕业设计声明</a></li>
           <li><a href="https://www.wxic.edu.cn/" target="_blank">无锡商院官网</a></li>
         </ul>
       </div>
@@ -605,11 +584,11 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           毕业设计详细设计报告
         </button>
-        <button class="btn-round" onclick="window.location.href='毕业设计答辩展示.html'">
+        <button class="btn-round" onclick="checkAuthAndNavigate('毕业设计答辩展示.html')">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           毕业设计答辩展示
         </button>
-        <button class="btn-round" onclick="window.location.href='毕业设计声明.html'">
+        <button class="btn-round" onclick="checkAuthAndNavigate('毕业设计声明.html')">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.5 1z"/></svg>
           毕业设计声明
         </button>
@@ -617,7 +596,7 @@
 
       <div class="info-card">
         <p style="margin: 0;">
-          温馨提示：橘络云服务目前只独家支持Microsoft Edge浏览器，其它浏览器会出现界面等问题！
+          您在：百度、Google、bing等所有浏览器中搜索“橘络云服务”均可点击文字访问本平台！平台公共账号及其密码均为：wxic
         </p>
       </div>
 
@@ -631,6 +610,7 @@
           onerror="console.warn('⚠️ 声明.png 未找到，请检查文件路径是否正确，且文件名全为中文\"声明.png\"');">
       </div>
 
+      <!-- ✅ 合规备案信息 -->
       <div style="
         position: absolute;
         bottom: 12px;
@@ -654,19 +634,23 @@
         text-align: center;
         word-wrap: break-word;
       ">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="wxic.png" alt="校徽" onerror="this.style.display='none';" style="width: 28px; height: 28px;">
-          <span>© 2026-2027 橘络云服务 · 无锡商业职业技术学院汤永健毕业设计</span>
-        </div>
-        <div>
-          <a href="https://www.wxic.edu.cn/" target="_blank" style="
-            color: #3A8AB6;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.2s;
-          " onmouseover="this.style.color='#2a6b99'" onmouseout="this.style.color='#3A8AB6'">
-            🔗 无锡商业职业技术学院官网
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+          <a href="https://beian.miit.gov.cn" target="_blank" style="color: #333; text-decoration: none;">
+            苏ICP备XXXXXXXX号-X
           </a>
+          <span>｜</span>
+          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=320XXXXXXXXXXXXX" 
+             target="_blank" 
+             style="color: #333; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+            <img src="https://beian.mps.gov.cn/img/logo01.dd734d0d.png" 
+                 alt="公安备案" 
+                 style="width: 14px; height: 14px; vertical-align: middle;">
+            苏公网安备 320XXXXXXXXXXXXX号
+          </a>
+        </div>
+        <!-- ✅ 版权文字单独包裹，便于在手机端隐藏 -->
+        <div class="copyright-text">
+          &copy; 2026 橘络云服务 · 面向私有云环境的传统IT业务集成实践 · 毕业设计展示平台
         </div>
       </div>
 
@@ -711,26 +695,35 @@
   </div>
 
   <script>
-    // 所有跳转均无需登录验证
-    function navigate(page) {
-      const routes = {
-        home: '../主页/主页.html',
-        game: '../综合学习平台/综合学习平台.html',
-        chat: '../传统网络实训平台/传统网络实训平台.html',
-        trophy: '../云计算实训平台/云计算实训平台.html',
-        chart: '../综合实训平台/综合实训平台.html',
-        users: '../用户中心/用户中心.html',
-        settings: '../手机下载/手机下载.html'
-      };
+    const USERS = {
+      "17851906935": { pwd: "250206TStyj@", name: "汤永健", email: "2128696247@qq.com", bio: "尊敬的用户您好：您要修改账户信息请联系管理员邮箱并将修改的附件；例如：头像等信息！发布给：2128696247@qq.com", role: "平台开发者" },
+      "bob": { pwd: "secret456", name: "鲍勃", email: "bob@juluo.com", bio: "后端开发", role: "开发者" },
+      "charlie": { pwd: "mypwd789", name: "查理", email: "charlie@juluo.com", bio: "测试工程师", role: "测试员" },
+      "123": { pwd: "456", name: "游客", email: "guest@juluo.com", bio: "临时账号", role: "访客" },
+      "1234": { pwd: "5678", name: "新用户", email: "user1234@juluo.com", bio: "双格式测试", role: "测试员" },
+      "wxic": { pwd: "wxic", name: "无锡商院师生专用账号", email: "wxic@juluo.com", bio: "毕业设计观赏账号", role: "观赏员" }
+    };
 
-      const target = routes[page];
-      if (!target) {
-        alert('该功能暂未开放！');
-        return;
+    function isAuthenticated() {
+      const auth = localStorage.getItem('橘络云服务_auth');
+      if (!auth) return false;
+      try {
+        const { username } = JSON.parse(auth);
+        return USERS.hasOwnProperty(username);
+      } catch (e) {
+        return false;
       }
+    }
 
-      window.location.href = target;
-      toggleMenu(); // 跳转后自动关闭菜单
+    function checkAuthAndNavigate(page) {
+      if (isAuthenticated()) {
+        window.location.href = page;
+      } else {
+        alert('请先登录！\n即将跳转至个人中心进行登录。');
+        setTimeout(() => {
+          window.location.href = '个人中心.html';
+        }, 500);
+      }
     }
 
     function toggleMenu() {
@@ -740,7 +733,6 @@
       overlay.classList.toggle('active');
     }
 
-    // 支持按 Esc 关闭菜单
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         const menu = document.getElementById('mobileMenu');
@@ -750,14 +742,6 @@
       }
     });
 
-    window.addEventListener('load', () => {
-      const bg = getComputedStyle(document.body).backgroundImage;
-      if (!bg || bg === 'none' || !bg.includes('background.jpg')) {
-        console.error('❌ 背景图未加载！请确认 background.jpg 存在且路径正确。');
-      }
-    });
-
-    // ✅ 新增登录验证逻辑（仅此处修改）
     function showLoginModal() {
       document.getElementById('loginModal').style.display = 'flex';
       document.getElementById('loginUsername').value = '';
@@ -772,21 +756,14 @@
       const username = document.getElementById('loginUsername').value.trim();
       const password = document.getElementById('loginPassword').value.trim();
 
-      if (username === '' || password === '') {
-        alert('请输入账号和密码！');
-        return;
-      }
-
-      // ✅ 账号密码已按要求修改，其他未动
       if (username === 'TS250206tyj' && password === '250206TStyj@') {
         closeLoginModal();
         window.location.href = '../毕业设计详细设计报告/毕业设计详细设计报告.html';
       } else {
-        alert('账号或密码错误！');
+        alert('账号或密码错误！\n提示：该功能使用独立账号，非通用登录账号。');
       }
     }
 
-    // 点击模态框外部关闭
     document.getElementById('loginModal').addEventListener('click', function(e) {
       if (e.target === this) {
         closeLoginModal();
