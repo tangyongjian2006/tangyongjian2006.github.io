@@ -432,8 +432,8 @@
       .clock-container,
       .info-card,
       .declaration-container,
-      .hero-container > div:not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header),
-      .hero-container > :not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header) {
+      .hero-container > div:not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header):not(.compliance-info),
+      .hero-container > :not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header):not(.compliance-info) {
         display: none !important;
       }
 
@@ -536,7 +536,7 @@
         </div>
         <div class="menu-group">
           <div class="menu-item" onclick="checkAuthAndNavigate('资源下载中心.html')">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 2.21 1.79 4 4 4h10c1.1 0 2-.9 2-2v-4c0-.55-.45-1-1-1h-2v-2h2c1.1 0 2-.9 2-2v-2h-2V8h2c1.1 0 2-.9 2-2v-2h-2V4h2c1.1 0 2-.9 2-2v-2h-2V0h-2v2H8V0H6v2H4V0H2v2c0 1.1.9 2 2 2h2v2H4c-1.1 0-2 .9-2 2v2h2v2H2c-1.1 0-2 .9-2 2v2c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4v-4c0-1.1-.9-2-2-2h-2v2h-2v-2h2c1.1 0 2-.9 2-2v-2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 2.21 1.79 4 4 4h10c1.1 0 2-.9 2-2v-4c0-.55-.45-1-1-1h-2v-2h2c1.1 0 2-.9 2-2v-2h2V8h2c1.1 0 2-.9 2-2v-2h-2V4h2c1.1 0 2-.9 2-2v-2h-2V0h-2v2H8V0H6v2H4V0H2v2c0 1.1.9 2 2 2h2v2H4c-1.1 0-2 .9-2 2v2h2v2H2c-1.1 0-2 .9-2 2v2c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4v-4c0-1.1-.9-2-2-2h-2v2h-2v-2h2c1.1 0 2-.9 2-2v-2z"/></svg>
           </div>
           <div class="menu-label">资源下载中心</div>
         </div>
@@ -611,7 +611,7 @@
       </div>
 
       <!-- ✅ 合规备案信息 -->
-      <div style="
+      <div class="compliance-info" style="
         position: absolute;
         bottom: 12px;
         left: 50%;
