@@ -2,9 +2,8 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <!-- ✅ 强制使用 1400px 视口，禁止缩放 -->
+  <!-- ✅ 强制桌面视口：但通过 CSS 缩放实现完整显示 -->
   <meta name="viewport" content="width=1400, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
   <title>橘络微光集 · 小汤毕设展示平台</title>
   <meta name="description" content="橘络云服务是无锡商业职业技术学院汤永健的毕业设计项目，提供综合学习平台、接口管理、资源下载等功能。温馨提示：当前版本仅独家支持 Microsoft Edge 浏览器。">
 
@@ -24,20 +23,33 @@
       height: 100%;
       background: url('background.jpg') no-repeat center center fixed;
       background-size: cover;
-      overflow: hidden;
+      /* ❌ 移除了 overflow: hidden，避免缩放后被裁剪 */
       font-family: 'Microsoft YaHei', sans-serif;
       color: #333;
-      /* ✅ 关键：不允许滚动条，防止滚动 */
-      overflow-x: auto;
-      overflow-y: hidden;
+    }
+
+    /* ✅ 新增：缩放容器 —— 核心修复 */
+    #scale-wrapper {
+      width: 1400px;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform-origin: top left;
+    }
+
+    @media (max-width: 1399px) {
+      #scale-wrapper {
+        transform: scale(calc(100vw / 1400));
+        width: 1400px;
+        height: calc(100vh / (100vw / 1400));
+      }
     }
 
     .hero-section {
-      position: fixed;
-      top: 0;
-      left: 0;
+      position: relative; /* ✅ 改为 relative，fixed 会脱离缩放容器 */
       width: 100%;
-      height: 100vh;
+      height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -55,11 +67,6 @@
       background: transparent;
       border: 4px solid #6BAFD4;
       box-shadow: 0 0 30px rgba(107, 175, 212, 0.3);
-      /* ✅ 确保容器不会被压缩 */
-      min-width: 1400px;
-      max-width: 1400px;
-      /* ✅ 防止内容溢出 */
-      margin: auto;
     }
 
     @keyframes floatCloud {
@@ -430,184 +437,187 @@
 </head>
 <body>
 
-  <div class="hero-section">
-    <div class="hero-container">
+  <!-- ✅ 核心：外层缩放容器 -->
+  <div id="scale-wrapper">
+    <div class="hero-section">
+      <div class="hero-container">
 
-      <div class="floating-cloud"></div>
-      <div class="floating-cloud"></div>
-      <div class="floating-cloud"></div>
+        <div class="floating-cloud"></div>
+        <div class="floating-cloud"></div>
+        <div class="floating-cloud"></div>
 
-      <svg class="bg-image" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.9;">
-        <g transform="translate(-200, 150)">
-          <g id="smile-cloud">
-            <image href="cloud-smile.png" x="500" y="300" width="200" height="160" opacity="0.95" preserveAspectRatio="xMidYMid meet"
-              onerror="console.warn('⚠️ cloud-smile.png 未找到！');"/>
+        <svg class="bg-image" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.9;">
+          <g transform="translate(-200, 150)">
+            <g id="smile-cloud">
+              <image href="cloud-smile.png" x="500" y="300" width="200" height="160" opacity="0.95" preserveAspectRatio="xMidYMid meet"
+                onerror="console.warn('⚠️ cloud-smile.png 未找到！');"/>
+            </g>
+            <rect x="500" y="480" width="50" height="100" rx="8" fill="#FF9AA2">
+              <animate attributeName="height" values="100;90;100;110;100" dur="3s" repeatCount="indefinite"/>
+              <animate attributeName="y" values="480;490;480;470;480" dur="3s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="560" y="450" width="50" height="130" rx="8" fill="#FFB7B2">
+              <animate attributeName="height" values="130;120;130;140;130" dur="3.5s" repeatCount="indefinite"/>
+              <animate attributeName="y" values="450;460;450;440;450" dur="3.5s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="620" y="490" width="50" height="90" rx="8" fill="#FFDAC1">
+              <animate attributeName="height" values="90;80;90;100;90" dur="4s" repeatCount="indefinite"/>
+              <animate attributeName="y" values="490;500;490;480;490" dur="4s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="680" y="460" width="50" height="120" rx="8" fill="#E2F0CB">
+              <animate attributeName="height" values="120;110;120;130;120" dur="4.5s" repeatCount="indefinite"/>
+              <animate attributeName="y" values="460;470;460;450;460" dur="4.5s" repeatCount="indefinite"/>
+            </rect>
           </g>
-          <rect x="500" y="480" width="50" height="100" rx="8" fill="#FF9AA2">
-            <animate attributeName="height" values="100;90;100;110;100" dur="3s" repeatCount="indefinite"/>
-            <animate attributeName="y" values="480;490;480;470;480" dur="3s" repeatCount="indefinite"/>
-          </rect>
-          <rect x="560" y="450" width="50" height="130" rx="8" fill="#FFB7B2">
-            <animate attributeName="height" values="130;120;130;140;130" dur="3.5s" repeatCount="indefinite"/>
-            <animate attributeName="y" values="450;460;450;440;450" dur="3.5s" repeatCount="indefinite"/>
-          </rect>
-          <rect x="620" y="490" width="50" height="90" rx="8" fill="#FFDAC1">
-            <animate attributeName="height" values="90;80;90;100;90" dur="4s" repeatCount="indefinite"/>
-            <animate attributeName="y" values="490;500;490;480;490" dur="4s" repeatCount="indefinite"/>
-          </rect>
-          <rect x="680" y="460" width="50" height="120" rx="8" fill="#E2F0CB">
-            <animate attributeName="height" values="120;110;120;130;120" dur="4.5s" repeatCount="indefinite"/>
-            <animate attributeName="y" values="460;470;460;450;460" dur="4.5s" repeatCount="indefinite"/>
-          </rect>
-        </g>
-        <polygon points="150,120 155,135 170,135 158,145 162,160 150,150 138,160 142,145 130,135 145,135" fill="#AECFEF" opacity="0.8"/>
-        <circle cx="920" cy="320" r="20" fill="#B8D8E8" />
-        <line x1="920" y1="340" x2="920" y2="400" stroke="#B8D8E8" stroke-width="2" />
-      </svg>
+          <polygon points="150,120 155,135 170,135 158,145 162,160 150,150 138,160 142,145 130,135 145,135" fill="#AECFEF" opacity="0.8"/>
+          <circle cx="920" cy="320" r="20" fill="#B8D8E8" />
+          <line x1="920" y1="340" x2="920" y2="400" stroke="#B8D8E8" stroke-width="2" />
+        </svg>
 
-      <div class="header">
-        <img src="title.png" alt="橘络云服务" class="title-img"
-          onerror="alert('❌ 找不到 title.png！\n请确保文件名是 title.png 并放在同一目录下。'); this.style.display='none';">
-      </div>
+        <div class="header">
+          <img src="title.png" alt="橘络云服务" class="title-img"
+            onerror="alert('❌ 找不到 title.png！\n请确保文件名是 title.png 并放在同一目录下。'); this.style.display='none';">
+        </div>
 
-      <div class="sidebar">
-        <div class="menu-group">
-          <div class="menu-item" onclick="checkAuthAndNavigate('index.html')">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <div class="sidebar">
+          <div class="menu-group">
+            <div class="menu-item" onclick="checkAuthAndNavigate('index.html')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            </div>
+            <div class="menu-label">应用首页</div>
           </div>
-          <div class="menu-label">应用首页</div>
-        </div>
-        <div class="menu-group">
-          <div class="menu-item" onclick="checkAuthAndNavigate('综合学习平台.html')">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+          <div class="menu-group">
+            <div class="menu-item" onclick="checkAuthAndNavigate('综合学习平台.html')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+            </div>
+            <div class="menu-label">综合学习平台</div>
           </div>
-          <div class="menu-label">综合学习平台</div>
-        </div>
-        <div class="menu-group">
-          <div class="menu-item" onclick="checkAuthAndNavigate('接口管理中心.html')">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+          <div class="menu-group">
+            <div class="menu-item" onclick="checkAuthAndNavigate('接口管理中心.html')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+            </div>
+            <div class="menu-label">接口管理中心</div>
           </div>
-          <div class="menu-label">接口管理中心</div>
-        </div>
-        <div class="menu-group">
-          <div class="menu-item" onclick="checkAuthAndNavigate('资源下载中心.html')">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 2.21 1.79 4 4 4h10c1.1 0 2-.9 2-2v-4c0-.55-.45-1-1-1h-2v-2h2c1.1 0 2-.9 2-2v-2h2V8h2c1.1 0 2-.9 2-2v-2h-2V4h2c1.1 0 2-.9 2-2v-2h-2V0h-2v2H8V0H6v2H4V0H2v2c0 1.1.9 2 2 2h2v2H4c-1.1 0-2 .9-2 2v2h2v2H2c-1.1 0-2 .9-2 2v2c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4v-4c0-1.1-.9-2-2-2h-2v2h-2v-2h2c1.1 0 2-.9 2-2v-2z"/></svg>
+          <div class="menu-group">
+            <div class="menu-item" onclick="checkAuthAndNavigate('资源下载中心.html')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 2.21 1.79 4 4 4h10c1.1 0 2-.9 2-2v-4c0-.55-.45-1-1-1h-2v-2h2c1.1 0 2-.9 2-2v-2h2V8h2c1.1 0 2-.9 2-2v-2h-2V4h2c1.1 0 2-.9 2-2v-2h-2V0h-2v2H8V0H6v2H4V0H2v2c0 1.1.9 2 2 2h2v2H4c-1.1 0-2 .9-2 2v2h2v2H2c-1.1 0-2 .9-2 2v2c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4v-4c0-1.1-.9-2-2-2h-2v2h-2v-2h2c1.1 0 2-.9 2-2v-2z"/></svg>
+            </div>
+            <div class="menu-label">资源下载中心</div>
           </div>
-          <div class="menu-label">资源下载中心</div>
-        </div>
-        <div class="menu-group">
-          <div class="menu-item" onclick="checkAuthAndNavigate('通知公告中心.html')">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          <div class="menu-group">
+            <div class="menu-item" onclick="checkAuthAndNavigate('通知公告中心.html')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+            </div>
+            <div class="menu-label">通知公告中心</div>
           </div>
-          <div class="menu-label">通知公告中心</div>
-        </div>
-        <div class="menu-group">
-          <div class="menu-item" onclick="window.location.href='个人中心.html'">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          <div class="menu-group">
+            <div class="menu-item" onclick="window.location.href='个人中心.html'">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div class="menu-label">个人中心</div>
           </div>
-          <div class="menu-label">个人中心</div>
         </div>
-      </div>
 
-      <div class="menu-toggle" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
-      <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-header">
-          <h3>橘络微光集</h3>
-          <button class="menu-close-btn" onclick="toggleMenu()">×</button>
+        <div class="menu-toggle" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-        <ul>
-          <li><a href="#" onclick="checkAuthAndNavigate('index.html'); return false;">应用查看首页</a></li>
-          <li><a href="#" onclick="checkAuthAndNavigate('综合学习平台.html'); return false;">综合学习平台</a></li>
-          <li><a href="#" onclick="checkAuthAndNavigate('接口管理中心.html'); return false;">接口管理中心</a></li>
-          <li><a href="#" onclick="checkAuthAndNavigate('资源下载中心.html'); return false;">资源下载中心</a></li>
-          <li><a href="#" onclick="checkAuthAndNavigate('通知公告中心.html'); return false;">通知公告中心</a></li>
-          <li><a href="个人中心.html">个人中心</a></li>
-          <li><a href="#" onclick="checkAuthAndNavigate('毕业设计答辩展示.html'); return false;">毕业设计答辩展示</a></li>
-          <li><a href="#" onclick="checkAuthAndNavigate('毕业设计声明.html'); return false;">毕业设计声明</a></li>
-          <li><a href="https://www.wxic.edu.cn/" target="_blank">无锡商院官网</a></li>
-        </ul>
-      </div>
 
-      <div class="action-buttons">
-        <button class="btn-round" onclick="showLoginModal()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          毕业设计详细设计报告
-        </button>
-        <button class="btn-round" onclick="checkAuthAndNavigate('毕业设计答辩展示.html')">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          毕业设计答辩展示
-        </button>
-        <button class="btn-round" onclick="checkAuthAndNavigate('毕业设计声明.html')">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.5 1z"/></svg>
-          毕业设计声明
-        </button>
-      </div>
-
-      <div class="info-card">
-        <p style="margin: 0;">
-          尊敬的导师您好！您在：浏览器中搜索“橘络微光集”均可点击文字访问本平台！平台公共账号及其密码均为：wxic
-        </p>
-      </div>
-
-      <div class="clock-container">
-        <img src="clock.png" alt="云时钟"
-          onerror="console.warn('⚠️ clock.png 未找到！');">
-      </div>
-
-      <div class="declaration-container">
-        <img src="声明.png" alt="毕业设计说明"
-          onerror="console.warn('⚠️ 声明.png 未找到，请检查文件路径是否正确，且文件名全为中文\"声明.png\"');">
-      </div>
-
-      <!-- ✅ 合规备案信息 -->
-      <div class="compliance-info" style="
-        position: absolute;
-        bottom: 12px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255, 255, 255, 0.92);
-        border: 1px solid #d0e0e8;
-        border-radius: 12px;
-        padding: 10px 18px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        z-index: 10;
-        max-width: 600px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        font-size: 12px;
-        line-height: 1.5;
-        color: #333;
-        text-align: center;
-        word-wrap: break-word;
-      ">
-        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
-          <a href="https://beian.miit.gov.cn" target="_blank" style="color: #333; text-decoration: none;">
-            苏ICP备2026009392号
-          </a>
-          <span>｜</span>
-          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=320XXXXXXXXXXXXX" 
-             target="_blank" 
-             style="color: #333; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-            <img src="police-logo.png" 
-                 alt="公安备案" 
-                 style="width: 14px; height: 14px; vertical-align: middle;">
-            苏公网安备 ：目前正在公安备案中 
-          </a>
+        <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
+        <div class="mobile-menu" id="mobileMenu">
+          <div class="mobile-menu-header">
+            <h3>橘络微光集</h3>
+            <button class="menu-close-btn" onclick="toggleMenu()">×</button>
+          </div>
+          <ul>
+            <li><a href="#" onclick="checkAuthAndNavigate('index.html'); return false;">应用查看首页</a></li>
+            <li><a href="#" onclick="checkAuthAndNavigate('综合学习平台.html'); return false;">综合学习平台</a></li>
+            <li><a href="#" onclick="checkAuthAndNavigate('接口管理中心.html'); return false;">接口管理中心</a></li>
+            <li><a href="#" onclick="checkAuthAndNavigate('资源下载中心.html'); return false;">资源下载中心</a></li>
+            <li><a href="#" onclick="checkAuthAndNavigate('通知公告中心.html'); return false;">通知公告中心</a></li>
+            <li><a href="个人中心.html">个人中心</a></li>
+            <li><a href="#" onclick="checkAuthAndNavigate('毕业设计答辩展示.html'); return false;">毕业设计答辩展示</a></li>
+            <li><a href="#" onclick="checkAuthAndNavigate('毕业设计声明.html'); return false;">毕业设计声明</a></li>
+            <li><a href="https://www.wxic.edu.cn/" target="_blank">无锡商院官网</a></li>
+          </ul>
         </div>
-        <div class="copyright-text">
-          &copy; 2026 橘络微光集 · 面向私有云环境的传统IT业务集成实践 · 毕业设计展示平台
-        </div>
-      </div>
 
+        <div class="action-buttons">
+          <button class="btn-round" onclick="showLoginModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            毕业设计详细设计报告
+          </button>
+          <button class="btn-round" onclick="checkAuthAndNavigate('毕业设计答辩展示.html')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            毕业设计答辩展示
+          </button>
+          <button class="btn-round" onclick="checkAuthAndNavigate('毕业设计声明.html')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.5 1z"/></svg>
+            毕业设计声明
+          </button>
+        </div>
+
+        <div class="info-card">
+          <p style="margin: 0;">
+            尊敬的导师您好！您在：浏览器中搜索“橘络微光集”均可点击文字访问本平台！平台公共账号及其密码均为：wxic
+          </p>
+        </div>
+
+        <div class="clock-container">
+          <img src="clock.png" alt="云时钟"
+            onerror="console.warn('⚠️ clock.png 未找到！');">
+        </div>
+
+        <div class="declaration-container">
+          <img src="声明.png" alt="毕业设计说明"
+            onerror="console.warn('⚠️ 声明.png 未找到，请检查文件路径是否正确，且文件名全为中文\"声明.png\"');">
+        </div>
+
+        <!-- ✅ 合规备案信息 -->
+        <div class="compliance-info" style="
+          position: absolute;
+          bottom: 12px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: rgba(255, 255, 255, 0.92);
+          border: 1px solid #d0e0e8;
+          border-radius: 12px;
+          padding: 10px 18px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+          z-index: 10;
+          max-width: 600px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          font-size: 12px;
+          line-height: 1.5;
+          color: #333;
+          text-align: center;
+          word-wrap: break-word;
+        ">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+            <a href="https://beian.miit.gov.cn" target="_blank" style="color: #333; text-decoration: none;">
+              苏ICP备2026009392号
+            </a>
+            <span>｜</span>
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=320XXXXXXXXXXXXX" 
+               target="_blank" 
+               style="color: #333; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+              <img src="police-logo.png" 
+                   alt="公安备案" 
+                   style="width: 14px; height: 14px; vertical-align: middle;">
+              苏公网安备 ：目前正在公安备案中 
+            </a>
+          </div>
+          <div class="copyright-text">
+            &copy; 2026 橘络微光集 · 面向私有云环境的传统IT业务集成实践 · 毕业设计展示平台
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
