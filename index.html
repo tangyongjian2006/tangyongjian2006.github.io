@@ -2,12 +2,15 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <!-- ✅ 关键修复：不再固定 width=1400 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ✅ 强制桌面视口：手机端不再自适应，完整显示电脑版 -->
+  <meta name="viewport" content="width=1400, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>橘络微光集 · 小汤毕设展示平台</title>
-  <meta name="description" content="橘络云服务是无锡商业职业技术学院汤永健的毕业设计项目...">
+  <meta name="description" content="橘络云服务是无锡商业职业技术学院汤永健的毕业设计项目，提供综合学习平台、接口管理、资源下载等功能。温馨提示：当前版本仅独家支持 Microsoft Edge 浏览器。">
 
+  <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="favicon.png">
 
   <style>
     * {
@@ -20,25 +23,17 @@
       height: 100%;
       background: url('background.jpg') no-repeat center center fixed;
       background-size: cover;
+      overflow: hidden;
       font-family: 'Microsoft YaHei', sans-serif;
       color: #333;
-      overflow-x: hidden; /* 防止意外横向滚动 */
-    }
-
-    /* ✅ 核心容器：最大 1400px，居中，高度 100vh */
-    .page-container {
-      max-width: 1400px;
-      min-width: 320px;
-      height: 100vh;
-      margin: 0 auto;
-      position: relative;
-      overflow: hidden;
     }
 
     .hero-section {
-      position: relative;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 100%;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -59,9 +54,20 @@
     }
 
     @keyframes floatCloud {
-      0% { transform: translateX(-200px) translateY(100vh); opacity: 0; }
-      10%, 90% { opacity: 0.8; }
-      100% { transform: translateX(calc(100% + 200px)) translateY(-200px); opacity: 0; }
+      0% {
+        transform: translateX(-200px) translateY(100vh);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateX(calc(100% + 200px)) translateY(-200px);
+        opacity: 0;
+      }
     }
 
     .floating-cloud {
@@ -78,8 +84,19 @@
       z-index: 2;
     }
 
-    .floating-cloud:nth-child(2) { width: 150px; height: 80px; animation-delay: 3s; animation-duration: 18s; }
-    .floating-cloud:nth-child(3) { width: 180px; height: 90px; animation-delay: 6s; animation-duration: 20s; }
+    .floating-cloud:nth-child(2) {
+      width: 150px;
+      height: 80px;
+      animation-delay: 3s;
+      animation-duration: 18s;
+    }
+
+    .floating-cloud:nth-child(3) {
+      width: 180px;
+      height: 90px;
+      animation-delay: 6s;
+      animation-duration: 20s;
+    }
 
     .header {
       position: absolute;
@@ -96,50 +113,28 @@
       max-width: 90vw;
       object-fit: contain;
       display: block;
+      background: transparent !important;
+      border: none;
+      box-shadow: none;
     }
 
-    /* ✅ Sidebar 在小屏上移到底部或隐藏？不！我们让它始终可见，但自适应位置 */
     .sidebar {
       position: absolute;
-      left: 20px;
+      left: 30px;
       top: 50%;
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 24px;
       z-index: 5;
     }
 
-    @media (max-width: 768px) {
-      .sidebar {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 12px;
-        left: 50%;
-        top: auto;
-        bottom: 160px;
-        transform: translateX(-50%);
-        width: 90vw;
-        background: rgba(255, 255, 255, 0.85);
-        padding: 10px;
-        border-radius: 12px;
-        backdrop-filter: blur(5px);
-      }
-      .menu-group {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 4px;
-      }
-      .menu-label {
-        font-size: 10px !important;
-      }
-      .menu-item {
-        width: 36px;
-        height: 36px;
-      }
+    .menu-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
 
     .menu-item {
@@ -168,6 +163,10 @@
       height: 22px;
     }
 
+    .menu-item:hover svg {
+      fill: #3A8AB6;
+    }
+
     .menu-label {
       font-size: 12px;
       color: #3A8AB6;
@@ -183,7 +182,7 @@
       right: 30px;
       width: 36px;
       height: 36px;
-      display: none; /* 默认隐藏，仅在极小屏显示？其实不需要，因为 sidebar 已响应式 */
+      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -194,58 +193,174 @@
       border: 2px solid #6BAFD4;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(107, 175, 212, 0.4);
+      transition: all 0.2s ease;
     }
 
-    @media (max-width: 480px) {
-      .menu-toggle { display: flex; }
+    .menu-toggle:hover {
+      background: #AECFEF;
+      transform: scale(1.1);
     }
 
-    .clock-container,
-    .info-card,
-    .declaration-container,
-    .action-buttons {
-      position: absolute;
-      z-index: 9;
-    }
-
-    .clock-container {
-      top: 28vh;
-      right: 120px;
-      width: 360px;
-    }
-
-    .info-card {
-      bottom: 90px;
-      right: 120px;
-      width: 280px;
-      padding: 18px;
+    .menu-toggle span {
+      width: 20px;
+      height: 2px;
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      border: 1px solid #e5e5e5;
-      line-height: 1.6;
-      color: #333;
+      border-radius: 2px;
+      transition: all 0.3s ease;
     }
 
-    .declaration-container {
-      bottom: 30px;
-      right: 30px;
-      width: 300px;
-    }
-
-    .declaration-container img,
-    .clock-container img {
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: auto;
-      display: block;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 29;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
     }
 
-    .action-buttons {
-      bottom: 160px;
-      left: 50%;
-      transform: translateX(-50%);
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 280px;
+      height: 100vh;
+      background: white;
+      box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+      z-index: 30;
+      transition: right 0.3s ease;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .mobile-menu.active {
+      right: 0;
+    }
+
+    .mobile-menu-header {
       display: flex;
-      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile-menu h3 {
+      color: #3A8AB6;
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .menu-close-btn {
+      background: #f1f1f1;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+      color: #999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-menu li {
+      margin: 12px 0;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 10px 15px;
+      color: #333;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.2s;
+      font-weight: 500;
+    }
+
+    .mobile-menu a:hover {
+      background: #f0f8ff;
+      color: #3A8AB6;
+    }
+
+    /* --- 以下媒体查询被禁用，确保手机端显示完整桌面版 --- */
+    /*
+    @media (max-width: 768px) {
+      .floating-cloud,
+      svg.bg-image,
+      .clock-container,
+      .info-card,
+      .declaration-container,
+      .hero-container > div:not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header):not(.compliance-info),
+      .hero-container > :not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header):not(.compliance-info) {
+        display: none !important;
+      }
+
+      .header {
+        display: block !important;
+        top: 20px;
+        transform: translateX(-50%);
+        z-index: 20;
+      }
+
+      .title-img {
+        display: block !important;
+        height: 100px;
+        max-width: 80vw;
+      }
+
+      .sidebar,
+      .menu-toggle {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+
+      .action-buttons {
+        display: none !important;
+      }
+
+      .copyright-text {
+        display: none !important;
+      }
+
+      html, body {
+        background-attachment: scroll;
+      }
+    }
+    */
+
+    @media (max-width: 1200px) {
+      .hero-container { border-radius: 15px; border: 3px solid #6BAFD4; }
+      .sidebar { left: 20px; gap: 20px; }
+      .menu-item { width: 40px; height: 40px; }
+      .menu-label { font-size: 11px; }
+      .clock-container { top: 33vh; right: 80px; width: 300px; }
+      .info-card { bottom: 80px; right: 80px; width: 240px; }
+      .declaration-container { bottom: 20px; right: 20px; width: 250px; }
+      .action-buttons { gap: 12px; }
+    }
+
+    @media (max-width: 1400px) {
+      .clock-container { top: 30vh; right: 100px; width: 330px; }
+      .info-card { bottom: 85px; right: 100px; width: 260px; }
+      .declaration-container { bottom: 25px; right: 25px; width: 280px; }
     }
 
     .btn-round {
@@ -280,132 +395,372 @@
       height: 14px;
     }
 
-    /* 合规备案 */
-    .compliance-info {
+    .clock-container {
       position: absolute;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid #d0e0e8;
+      top: 28vh;
+      right: 120px;
+      z-index: 15;
+      pointer-events: none;
+      width: 360px;
+      height: auto;
+      overflow: hidden;
       border-radius: 12px;
-      padding: 10px 18px;
+    }
+
+    .clock-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.97;
+      border: none;
+      background: transparent !important;
+      object-fit: contain;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .info-card {
+      position: absolute;
+      bottom: 90px;
+      right: 120px;
+      width: 280px;
+      padding: 18px;
+      background: white;
+      border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      z-index: 10;
-      max-width: 600px;
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.5;
+      border: 1px solid #e5e5e5;
+      line-height: 1.6;
+      z-index: 9;
       color: #333;
     }
 
-    /* 响应式调整 */
-    @media (max-width: 1200px) {
-      .clock-container { top: 25vh; right: 80px; width: 300px; }
-      .info-card { bottom: 80px; right: 80px; width: 240px; }
-      .declaration-container { bottom: 20px; right: 20px; width: 250px; }
-      .action-buttons { bottom: 140px; gap: 12px; }
+    .declaration-container {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      width: 300px;
+      height: auto;
+      z-index: 12;
+      pointer-events: none;
     }
 
-    @media (max-width: 768px) {
-      .clock-container { top: 20vh; right: 20px; width: 260px; }
-      .info-card { bottom: 110px; right: 20px; width: 220px; font-size: 12px; }
-      .declaration-container { bottom: 20px; right: 20px; width: 220px; }
-      .action-buttons { 
-        bottom: 80px; 
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-      }
-      .btn-round { font-size: 12px; padding: 6px 16px; }
+    .declaration-container img {
+      width: 100%;
+      height: auto;
+      opacity: 0.9;
+      filter: contrast(1.3) brightness(1.05);
+      mix-blend-mode: multiply;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(107, 175, 212, 0.15);
     }
 
-    @media (max-width: 480px) {
-      .clock-container { top: 18vh; width: 220px; }
-      .info-card { bottom: 100px; width: 200px; }
-      .declaration-container { width: 200px; }
-      .action-buttons { bottom: 70px; }
-      .title-img { height: 140px; }
+    .action-buttons {
+      position: absolute;
+      bottom: 160px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 16px;
+      z-index: 11;
     }
+
+    /* 合规备案信息样式保持不变 */
   </style>
 </head>
 <body>
 
-  <!-- ✅ 核心：使用弹性容器，不再强制 1400px viewport -->
-  <div class="page-container">
-    <div class="hero-section">
-      <div class="hero-container">
+  <div class="hero-section">
+    <div class="hero-container">
 
-        <div class="floating-cloud"></div>
-        <div class="floating-cloud"></div>
-        <div class="floating-cloud"></div>
+      <div class="floating-cloud"></div>
+      <div class="floating-cloud"></div>
+      <div class="floating-cloud"></div>
 
-        <!-- 背景 SVG 保留 -->
-        <svg class="bg-image" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.9;">
-          <g transform="translate(-200, 150)">
-            <g id="smile-cloud">
-              <image href="cloud-smile.png" x="500" y="300" width="200" height="160" opacity="0.95" preserveAspectRatio="xMidYMid meet"
-                onerror="console.warn('⚠️ cloud-smile.png 未找到！');"/>
-            </g>
-            <rect x="500" y="480" width="50" height="100" rx="8" fill="#FF9AA2">
-              <animate attributeName="height" values="100;90;100;110;100" dur="3s" repeatCount="indefinite"/>
-              <animate attributeName="y" values="480;490;480;470;480" dur="3s" repeatCount="indefinite"/>
-            </rect>
-            <!-- 其他动画矩形... -->
+      <svg class="bg-image" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.9;">
+        <g transform="translate(-200, 150)">
+          <g id="smile-cloud">
+            <image href="cloud-smile.png" x="500" y="300" width="200" height="160" opacity="0.95" preserveAspectRatio="xMidYMid meet"
+              onerror="console.warn('⚠️ cloud-smile.png 未找到！');"/>
           </g>
-        </svg>
+          <rect x="500" y="480" width="50" height="100" rx="8" fill="#FF9AA2">
+            <animate attributeName="height" values="100;90;100;110;100" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="y" values="480;490;480;470;480" dur="3s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="560" y="450" width="50" height="130" rx="8" fill="#FFB7B2">
+            <animate attributeName="height" values="130;120;130;140;130" dur="3.5s" repeatCount="indefinite"/>
+            <animate attributeName="y" values="450;460;450;440;450" dur="3.5s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="620" y="490" width="50" height="90" rx="8" fill="#FFDAC1">
+            <animate attributeName="height" values="90;80;90;100;90" dur="4s" repeatCount="indefinite"/>
+            <animate attributeName="y" values="490;500;490;480;490" dur="4s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="680" y="460" width="50" height="120" rx="8" fill="#E2F0CB">
+            <animate attributeName="height" values="120;110;120;130;120" dur="4.5s" repeatCount="indefinite"/>
+            <animate attributeName="y" values="460;470;460;450;460" dur="4.5s" repeatCount="indefinite"/>
+          </rect>
+        </g>
+        <polygon points="150,120 155,135 170,135 158,145 162,160 150,150 138,160 142,145 130,135 145,135" fill="#AECFEF" opacity="0.8"/>
+        <circle cx="920" cy="320" r="20" fill="#B8D8E8" />
+        <line x1="920" y1="340" x2="920" y2="400" stroke="#B8D8E8" stroke-width="2" />
+      </svg>
 
-        <div class="header">
-          <img src="title.png" alt="橘络云服务" class="title-img"
-            onerror="this.style.display='none';">
-        </div>
+      <div class="header">
+        <img src="title.png" alt="橘络云服务" class="title-img"
+          onerror="alert('❌ 找不到 title.png！\n请确保文件名是 title.png 并放在同一目录下。'); this.style.display='none';">
+      </div>
 
-        <div class="sidebar">
-          <!-- 菜单项保持不变 -->
-          <div class="menu-group">
-            <div class="menu-item" onclick="alert('首页')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div>
-            <div class="menu-label">应用首页</div>
+      <div class="sidebar">
+        <div class="menu-group">
+          <div class="menu-item" onclick="checkAuthAndNavigate('index.html')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
           </div>
-          <!-- 其他菜单项... -->
+          <div class="menu-label">应用首页</div>
         </div>
-
-        <!-- 三条杠（仅极小屏显示，可选） -->
-        <div class="menu-toggle" onclick="toggleMenu()">
-          <span></span><span></span><span></span>
+        <div class="menu-group">
+          <div class="menu-item" onclick="checkAuthAndNavigate('综合学习平台.html')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+          </div>
+          <div class="menu-label">综合学习平台</div>
         </div>
-
-        <div class="action-buttons">
-          <button class="btn-round">毕业设计详细设计报告</button>
-          <button class="btn-round">毕业设计答辩展示</button>
-          <button class="btn-round">毕业设计声明</button>
+        <div class="menu-group">
+          <div class="menu-item" onclick="checkAuthAndNavigate('接口管理中心.html')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+          </div>
+          <div class="menu-label">接口管理中心</div>
         </div>
-
-        <div class="info-card">
-          <p>尊敬的导师您好！您在：浏览器中搜索“橘络微光集”均可点击文字访问本平台！平台公共账号及其密码均为：wxic</p>
+        <div class="menu-group">
+          <div class="menu-item" onclick="checkAuthAndNavigate('资源下载中心.html')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 2.21 1.79 4 4 4h10c1.1 0 2-.9 2-2v-4c0-.55-.45-1-1-1h-2v-2h2c1.1 0 2-.9 2-2v-2h2V8h2c1.1 0 2-.9 2-2v-2h-2V4h2c1.1 0 2-.9 2-2v-2h-2V0h-2v2H8V0H6v2H4V0H2v2c0 1.1.9 2 2 2h2v2H4c-1.1 0-2 .9-2 2v2h2v2H2c-1.1 0-2 .9-2 2v2c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4v-4c0-1.1-.9-2-2-2h-2v2h-2v-2h2c1.1 0 2-.9 2-2v-2z"/></svg>
+          </div>
+          <div class="menu-label">资源下载中心</div>
         </div>
-
-        <div class="clock-container">
-          <img src="clock.png" alt="云时钟">
+        <div class="menu-group">
+          <div class="menu-item" onclick="checkAuthAndNavigate('通知公告中心.html')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          </div>
+          <div class="menu-label">通知公告中心</div>
         </div>
-
-        <div class="declaration-container">
-          <img src="声明.png" alt="毕业设计说明">
+        <div class="menu-group">
+          <div class="menu-item" onclick="window.location.href='个人中心.html'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </div>
+          <div class="menu-label">个人中心</div>
         </div>
+      </div>
 
-        <div class="compliance-info">
-          <div>苏ICP备2026009392号｜苏公网安备 ：目前正在公安备案中</div>
-          <div>&copy; 2026 橘络微光集 · 毕业设计展示平台</div>
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
+      <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+          <h3>橘络微光集</h3>
+          <button class="menu-close-btn" onclick="toggleMenu()">×</button>
         </div>
+        <ul>
+          <li><a href="#" onclick="checkAuthAndNavigate('index.html'); return false;">应用查看首页</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('综合学习平台.html'); return false;">综合学习平台</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('接口管理中心.html'); return false;">接口管理中心</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('资源下载中心.html'); return false;">资源下载中心</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('通知公告中心.html'); return false;">通知公告中心</a></li>
+          <li><a href="个人中心.html">个人中心</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('毕业设计答辩展示.html'); return false;">毕业设计答辩展示</a></li>
+          <li><a href="#" onclick="checkAuthAndNavigate('毕业设计声明.html'); return false;">毕业设计声明</a></li>
+          <li><a href="https://www.wxic.edu.cn/" target="_blank">无锡商院官网</a></li>
+        </ul>
+      </div>
 
+      <div class="action-buttons">
+        <button class="btn-round" onclick="showLoginModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          毕业设计详细设计报告
+        </button>
+        <button class="btn-round" onclick="checkAuthAndNavigate('毕业设计答辩展示.html')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          毕业设计答辩展示
+        </button>
+        <button class="btn-round" onclick="checkAuthAndNavigate('毕业设计声明.html')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.5 1z"/></svg>
+          毕业设计声明
+        </button>
+      </div>
+
+      <div class="info-card">
+        <p style="margin: 0;">
+          尊敬的导师您好！您在：浏览器中搜索“橘络微光集”均可点击文字访问本平台！平台公共账号及其密码均为：wxic
+        </p>
+      </div>
+
+      <div class="clock-container">
+        <img src="clock.png" alt="云时钟"
+          onerror="console.warn('⚠️ clock.png 未找到！');">
+      </div>
+
+      <div class="declaration-container">
+        <img src="声明.png" alt="毕业设计说明"
+          onerror="console.warn('⚠️ 声明.png 未找到，请检查文件路径是否正确，且文件名全为中文\"声明.png\"');">
+      </div>
+
+      <!-- ✅ 合规备案信息 -->
+      <div class="compliance-info" style="
+        position: absolute;
+        bottom: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid #d0e0e8;
+        border-radius: 12px;
+        padding: 10px 18px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        z-index: 10;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #333;
+        text-align: center;
+        word-wrap: break-word;
+      ">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+          <a href="https://beian.miit.gov.cn" target="_blank" style="color: #333; text-decoration: none;">
+            苏ICP备2026009392号
+          </a>
+          <span>｜</span>
+          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=320XXXXXXXXXXXXX" 
+             target="_blank" 
+             style="color: #333; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+            <img src="police-logo.png" 
+                 alt="公安备案" 
+                 style="width: 14px; height: 14px; vertical-align: middle;">
+            苏公网安备 ：目前正在公安备案中 
+          </a>
+        </div>
+        <div class="copyright-text">
+          &copy; 2026 橘络微光集 · 面向私有云环境的传统IT业务集成实践 · 毕业设计展示平台
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 登录模态框 -->
+  <div id="loginModal" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+  ">
+    <div style="
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      width: 320px;
+      max-width: 90vw;
+    ">
+      <h3 style="margin: 0 0 16px; text-align: center; color: #3A8AB6;">请输入账号密码</h3>
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; margin-bottom: 4px; font-weight: bold;">账号：</label>
+        <input type="text" id="loginUsername" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px;" placeholder="请输入账号" />
+      </div>
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; margin-bottom: 4px; font-weight: bold;">密码：</label>
+        <input type="password" id="loginPassword" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px;" placeholder="请输入密码" />
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="closeLoginModal()" style="flex: 1; padding: 8px; background: #f0f0f0; border: none; border-radius: 6px; cursor: pointer;">取消</button>
+        <button onclick="submitLogin()" style="flex: 1; padding: 8px; background: #3A8AB6; color: white; border: none; border-radius: 6px; cursor: pointer;">登录</button>
       </div>
     </div>
   </div>
 
   <script>
-    // 简化脚本，保留核心逻辑
-    function toggleMenu() {
-      alert('移动端菜单（可扩展）');
+    const USERS = {
+      "17851906935": { pwd: "250206TStyj@", name: "汤永健", email: "2128696247@qq.com", bio: "尊敬的用户您好：您要修改账户信息请联系管理员邮箱并将修改的附件；例如：头像等信息！发布给：2128696247@qq.com", role: "平台开发者" },
+      "bob": { pwd: "secret456", name: "鲍勃", email: "bob@juluo.com", bio: "后端开发", role: "开发者" },
+      "charlie": { pwd: "mypwd789", name: "查理", email: "charlie@juluo.com", bio: "测试工程师", role: "测试员" },
+      "123": { pwd: "456", name: "游客", email: "guest@juluo.com", bio: "临时账号", role: "访客" },
+      "1234": { pwd: "5678", name: "新用户", email: "user1234@juluo.com", bio: "双格式测试", role: "测试员" },
+      "wxic": { pwd: "wxic", name: "无锡商院师生专用账号", email: "wxic@juluo.com", bio: "毕业设计观赏账号", role: "观赏员" }
+    };
+
+    function isAuthenticated() {
+      const auth = localStorage.getItem('橘络云服务_auth');
+      if (!auth) return false;
+      try {
+        const { username } = JSON.parse(auth);
+        return USERS.hasOwnProperty(username);
+      } catch (e) {
+        return false;
+      }
     }
+
+    function checkAuthAndNavigate(page) {
+      if (isAuthenticated()) {
+        window.location.href = page;
+      } else {
+        alert('请先登录！\n即将跳转至个人中心进行登录。');
+        setTimeout(() => {
+          window.location.href = '个人中心.html';
+        }, 500);
+      }
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const overlay = document.querySelector('.mobile-menu-overlay');
+      menu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const menu = document.getElementById('mobileMenu');
+        if (menu.classList.contains('active')) {
+          toggleMenu();
+        }
+      }
+    });
+
+    function showLoginModal() {
+      document.getElementById('loginModal').style.display = 'flex';
+      document.getElementById('loginUsername').value = '';
+      document.getElementById('loginPassword').value = '';
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').style.display = 'none';
+    }
+
+    function submitLogin() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if (username === 'TS250206tyj' && password === '250206TStyj@') {
+        closeLoginModal();
+        window.location.href = '../毕业设计详细设计报告/毕业设计详细设计报告.html';
+      } else {
+        alert('账号或密码错误！\n提示：该功能使用独立账号，非通用登录账号。');
+      }
+    }
+
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLoginModal();
+      }
+    });
   </script>
 </body>
 </html>
