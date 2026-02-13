@@ -2,8 +2,9 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <!-- ✅ 强制桌面视口：手机端不再自适应，完整显示电脑版 -->
+  <!-- ✅ 强制使用 1400px 视口，禁止缩放 -->
   <meta name="viewport" content="width=1400, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
   <title>橘络微光集 · 小汤毕设展示平台</title>
   <meta name="description" content="橘络云服务是无锡商业职业技术学院汤永健的毕业设计项目，提供综合学习平台、接口管理、资源下载等功能。温馨提示：当前版本仅独家支持 Microsoft Edge 浏览器。">
 
@@ -26,6 +27,9 @@
       overflow: hidden;
       font-family: 'Microsoft YaHei', sans-serif;
       color: #333;
+      /* ✅ 关键：不允许滚动条，防止滚动 */
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     .hero-section {
@@ -51,6 +55,11 @@
       background: transparent;
       border: 4px solid #6BAFD4;
       box-shadow: 0 0 30px rgba(107, 175, 212, 0.3);
+      /* ✅ 确保容器不会被压缩 */
+      min-width: 1400px;
+      max-width: 1400px;
+      /* ✅ 防止内容溢出 */
+      margin: auto;
     }
 
     @keyframes floatCloud {
@@ -298,53 +307,6 @@
       background: #f0f8ff;
       color: #3A8AB6;
     }
-
-    /* --- 以下媒体查询被禁用，确保手机端显示完整桌面版 --- */
-    /*
-    @media (max-width: 768px) {
-      .floating-cloud,
-      svg.bg-image,
-      .clock-container,
-      .info-card,
-      .declaration-container,
-      .hero-container > div:not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header):not(.compliance-info),
-      .hero-container > :not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header):not(.compliance-info) {
-        display: none !important;
-      }
-
-      .header {
-        display: block !important;
-        top: 20px;
-        transform: translateX(-50%);
-        z-index: 20;
-      }
-
-      .title-img {
-        display: block !important;
-        height: 100px;
-        max-width: 80vw;
-      }
-
-      .sidebar,
-      .menu-toggle {
-        display: flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-      }
-
-      .action-buttons {
-        display: none !important;
-      }
-
-      .copyright-text {
-        display: none !important;
-      }
-
-      html, body {
-        background-attachment: scroll;
-      }
-    }
-    */
 
     @media (max-width: 1200px) {
       .hero-container { border-radius: 15px; border: 3px solid #6BAFD4; }
