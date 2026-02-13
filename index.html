@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>橘络云服务 · 小汤毕设展示平台</title>
+  <title>橘络微光集 · 小汤毕设展示平台</title>
   <meta name="description" content="橘络云服务是无锡商业职业技术学院汤永健的毕业设计项目，提供综合学习平台、接口管理、资源下载等功能。温馨提示：当前版本仅独家支持 Microsoft Edge 浏览器。">
 
   <!-- Favicon -->
@@ -20,7 +20,7 @@
 
     html, body {
       height: 100%;
-      background: url('background.jpg') no-repeat center center fixed;
+      background: url('bj123.jpg') no-repeat center center fixed;
       background-size: cover;
       overflow: hidden;
       font-family: 'Microsoft YaHei', sans-serif;
@@ -80,7 +80,7 @@
       opacity: 0.8;
       filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
       animation: floatCloud 15s linear infinite;
-      z-index: 2;
+      z-index: 5;
     }
 
     .floating-cloud:nth-child(2) {
@@ -97,24 +97,35 @@
       animation-duration: 20s;
     }
 
+    /* ✅ 标题固定在浏览器最顶部 */
     .header {
-      position: absolute;
+      position: fixed;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 20;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       pointer-events: none;
       text-align: center;
     }
 
     .title-img {
-      height: 180px;
-      max-width: 90vw;
+      width: auto;
+      height: auto;
+      max-height: 280px;
+      max-width: 95vw;
+      min-width: 320px;
       object-fit: contain;
       display: block;
+      margin: 0 auto;
       background: transparent !important;
       border: none;
       box-shadow: none;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+      position: relative;
+      z-index: 30;
     }
 
     .sidebar {
@@ -425,29 +436,34 @@
       .declaration-container { bottom: 25px; right: 25px; width: 280px; }
     }
 
-    /* ✅ 手机端专属优化 */
     @media (max-width: 768px) {
       .floating-cloud,
       svg.bg-image,
       .clock-container,
       .info-card,
       .declaration-container,
-      .hero-container > div:not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header):not(.compliance-info),
-      .hero-container > :not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header):not(.compliance-info) {
+      .hero-container > div:not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.compliance-info),
+      .hero-container > :not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.compliance-info) {
         display: none !important;
       }
 
       .header {
-        display: block !important;
-        top: 20px;
-        transform: translateX(-50%);
-        z-index: 20;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 999;
       }
 
       .title-img {
         display: block !important;
         height: 100px;
         max-width: 80vw;
+        position: relative !important;
+        max-height: none !important;
       }
 
       .sidebar,
@@ -457,12 +473,10 @@
         opacity: 1 !important;
       }
 
-      /* ✅ 隐藏三个主操作按钮 */
       .action-buttons {
         display: none !important;
       }
 
-      /* ✅ 隐藏版权文字 */
       .copyright-text {
         display: none !important;
       }
@@ -474,6 +488,12 @@
   </style>
 </head>
 <body>
+
+  <!-- ✅ 标题独立于容器，真正贴顶 -->
+  <div class="header">
+    <img src="title.png" alt="橘络云服务" class="title-img"
+      onerror="alert('❌ 找不到 title.png！\n请确保文件名是 title.png 并放在同一目录下。'); this.style.display='none';">
+  </div>
 
   <div class="hero-section">
     <div class="hero-container">
@@ -510,10 +530,7 @@
         <line x1="920" y1="340" x2="920" y2="400" stroke="#B8D8E8" stroke-width="2" />
       </svg>
 
-      <div class="header">
-        <img src="title.png" alt="橘络云服务" class="title-img"
-          onerror="alert('❌ 找不到 title.png！\n请确保文件名是 title.png 并放在同一目录下。'); this.style.display='none';">
-      </div>
+      <!-- ⚠️ .header 已移出此处 -->
 
       <div class="sidebar">
         <div class="menu-group">
@@ -536,7 +553,7 @@
         </div>
         <div class="menu-group">
           <div class="menu-item" onclick="checkAuthAndNavigate('资源下载中心.html')">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 2.21 1.79 4 4 4h10c1.1 0 2-.9 2-2v-4c0-.55-.45-1-1-1h-2v-2h2c1.1 0 2-.9 2-2v-2h2V8h2c1.1 0 2-.9 2-2v-2h-2V4h2c1.1 0 2-.9 2-2v-2h-2V0h-2v2H8V0H6v2H4V0H2v2c0 1.1.9 2 2 2h2v2H4c-1.1 0-2 .9-2 2v2h2v2H2c-1.1 0-2 .9-2 2v2c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4v-4c0-1.1-.9-2-2-2h-2v2h-2v-2h2c1.1 0 2-.9 2-2v-2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 2.21 1.79 4 4 4h10c1.1 0 2-.9 2-2v-4c0-.55-.45-1-1-1h-2v-2h2c1.1 0 2-.9 2-2v-2z"/></svg>
           </div>
           <div class="menu-label">资源下载中心</div>
         </div>
@@ -563,7 +580,7 @@
       <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
       <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
-          <h3>橘络云服务</h3>
+          <h3>橘络微光集</h3>
           <button class="menu-close-btn" onclick="toggleMenu()">×</button>
         </div>
         <ul>
@@ -596,7 +613,7 @@
 
       <div class="info-card">
         <p style="margin: 0;">
-          您在：百度、Google、bing等所有浏览器中搜索“橘络云服务”均可点击文字访问本平台！平台公共账号及其密码均为：wxic
+          您在：百度、Google、bing等所有浏览器中搜索“橘络微光集”均可点击文字访问本平台！平台公共账号及其密码均为：wxic
         </p>
       </div>
 
@@ -648,7 +665,6 @@
             苏公网安备 320XXXXXXXXXXXXX号
           </a>
         </div>
-        <!-- ✅ 版权文字单独包裹，便于在手机端隐藏 -->
         <div class="copyright-text">
           &copy; 2026 橘络云服务 · 面向私有云环境的传统IT业务集成实践 · 毕业设计展示平台
         </div>
@@ -770,5 +786,8 @@
       }
     });
   </script>
+  
+  
+
 </body>
 </html>
