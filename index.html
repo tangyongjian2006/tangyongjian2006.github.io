@@ -299,53 +299,7 @@
       color: #3A8AB6;
     }
 
-    /* --- 以下媒体查询被禁用，确保手机端显示完整桌面版 --- */
-    /*
-    @media (max-width: 768px) {
-      .floating-cloud,
-      svg.bg-image,
-      .clock-container,
-      .info-card,
-      .declaration-container,
-      .hero-container > div:not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header):not(.compliance-info),
-      .hero-container > :not(.sidebar):not(.menu-toggle):not(.mobile-menu):not(.mobile-menu-overlay):not(.header):not(.compliance-info) {
-        display: none !important;
-      }
-
-      .header {
-        display: block !important;
-        top: 20px;
-        transform: translateX(-50%);
-        z-index: 20;
-      }
-
-      .title-img {
-        display: block !important;
-        height: 100px;
-        max-width: 80vw;
-      }
-
-      .sidebar,
-      .menu-toggle {
-        display: flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-      }
-
-      .action-buttons {
-        display: none !important;
-      }
-
-      .copyright-text {
-        display: none !important;
-      }
-
-      html, body {
-        background-attachment: scroll;
-      }
-    }
-    */
-
+    /* --- 原媒体查询保持不变 --- */
     @media (max-width: 1200px) {
       .hero-container { border-radius: 15px; border: 3px solid #6BAFD4; }
       .sidebar { left: 20px; gap: 20px; }
@@ -463,7 +417,97 @@
       z-index: 11;
     }
 
-    /* 合规备案信息样式保持不变 */
+    /* ========== 新增：手机端精简模式（≤768px） ========== */
+    @media (max-width: 768px) {
+      /* 隐藏所有非核心元素 */
+      .floating-cloud,
+      svg.bg-image,
+      .clock-container,
+      .info-card,
+      .declaration-container,
+      .action-buttons {
+        display: none !important;
+      }
+
+      /* 背景改为 scroll，避免 fixed 在部分手机失效 */
+      html, body {
+        background-attachment: scroll !important;
+        background-size: cover !important;
+      }
+
+      /* 标题缩小并上移 */
+      .header {
+        top: 12px !important;
+      }
+      .title-img {
+        height: 80px !important;
+        max-width: 80vw !important;
+      }
+
+      /* 左侧菜单微调 */
+      .sidebar {
+        left: 10px !important;
+        gap: 16px !important;
+      }
+      .menu-item {
+        width: 36px !important;
+        height: 36px !important;
+      }
+      .menu-label {
+        font-size: 9px !important;
+      }
+
+      /* 汉堡按钮微调 */
+      .menu-toggle {
+        top: 10px !important;
+        right: 10px !important;
+        width: 30px !important;
+        height: 30px !important;
+      }
+      .menu-toggle span {
+        width: 16px !important;
+        height: 2px !important;
+      }
+
+      /* ✅ 关键：确保备案+版权信息始终可见、自适应、不溢出 */
+      .compliance-info {
+        position: fixed !important;
+        bottom: 8px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 1px solid #d0e0e8 !important;
+        border-radius: 10px !important;
+        padding: 8px 12px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+        z-index: 999 !important;
+        max-width: 95vw !important;
+        min-width: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 4px !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+        color: #333 !important;
+        text-align: center !important;
+        word-wrap: break-word !important;
+        word-break: break-word !important;
+      }
+
+      .compliance-info a {
+        color: #333 !important;
+        text-decoration: none !important;
+        font-weight: normal !important;
+      }
+
+      .compliance-info img {
+        width: 12px !important;
+        height: 12px !important;
+      }
+    }
+    /* ========== 手机端规则结束 ========== */
   </style>
 </head>
 <body>
@@ -604,40 +648,12 @@
       </div>
 
       <!-- ✅ 合规备案信息 -->
-      <div class="compliance-info" style="
-        position: absolute;
-        bottom: 12px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255, 255, 255, 0.92);
-        border: 1px solid #d0e0e8;
-        border-radius: 12px;
-        padding: 10px 18px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        z-index: 10;
-        max-width: 600px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        font-size: 12px;
-        line-height: 1.5;
-        color: #333;
-        text-align: center;
-        word-wrap: break-word;
-      ">
-        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
-          <a href="https://beian.miit.gov.cn" target="_blank" style="color: #333; text-decoration: none;">
-            苏ICP备2026009392号
-          </a>
+      <div class="compliance-info">
+        <div>
+          <a href="https://beian.miit.gov.cn" target="_blank">苏ICP备2026009392号</a>
           <span>｜</span>
-          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=320XXXXXXXXXXXXX" 
-             target="_blank" 
-             style="color: #333; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-            <img src="police-logo.png" 
-                 alt="公安备案" 
-                 style="width: 14px; height: 14px; vertical-align: middle;">
+          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=320XXXXXXXXXXXXX" target="_blank">
+            <img src="police-logo.png" alt="公安备案">
             苏公网安备 ：目前正在公安备案中 
           </a>
         </div>
