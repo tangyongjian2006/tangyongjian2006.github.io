@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>汤永健 - 毕业答辩演示</title>
+  <link rel="icon" href="logo.png" type="image/png">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background-image: url('background.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #2c3e50;
+    }
+
+    /* 全屏提示 */
+    .fullscreen-tip {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      z-index: 1000;
+      display: none;
+    }
+
+    /* 幻灯片容器 */
+    .slides-container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      text-align: center;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .slide h1 {
+      font-size: 3.2em;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .slide h2 {
+      font-size: 2.4em;
+      margin-bottom: 30px;
+      color: #2980b9;
+    }
+
+    .slide p {
+      font-size: 1.4em;
+      line-height: 1.8;
+      max-width: 800px;
+      margin-bottom: 20px;
+    }
+
+    .slide ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+      font-size: 1.4em;
+      line-height: 2.2;
+    }
+
+    .slide li::before {
+      content: "• ";
+      color: #2ecc71;
+      font-weight: bold;
+    }
+
+    /* 封面特殊样式 */
+    #slide1 h1 {
+      font-size: 4em;
+      color: #2c3e50;
+    }
+
+    #slide1 h2 {
+      font-size: 2.8em;
+      color: #2980b9;
+    }
+
+    .student-info {
+      margin-top: 30px;
+      font-size: 1.6em;
+      color: #7f8c8d;
+    }
+
+    /* 全屏按钮（备用） */
+    .fullscreen-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1000;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 全屏提示（非全屏时显示） -->
+  <div class="fullscreen-tip" id="fullscreenTip">提示：按 F11 进入全屏演示模式</div>
+
+  <!-- 全屏按钮（备用） -->
+  <button class="fullscreen-btn" onclick="requestFullscreen()">全屏演示</button>
+
+  <!-- 幻灯片容器 -->
+  <div class="slides-container">
+    <!-- 第1页：封面 -->
+    <div class="slide active" id="slide1">
+      <h1>毕业设计答辩</h1>
+      <h2>基于 Web 的个人学术管理平台</h2>
+      <div class="student-info">
+        <p>答辩人：汤永健</p>
+        <p>学号：2023XXXXXX</p>
+        <p>指导教师：XXX</p>
+        <p>无锡商业职业技术学院 · 2027 届</p>
+      </div>
+    </div>
+
+    <!-- 第2页：目录 -->
+    <div class="slide" id="slide2">
+      <h2>目 录</h2>
+      <ul>
+        <li>项目背景与意义</li>
+        <li>系统功能设计</li>
+        <li>技术实现方案</li>
+        <li>核心界面展示</li>
+        <li>总结与展望</li>
+      </ul>
+    </div>
+
+    <!-- 第3页：项目背景 -->
+    <div class="slide" id="slide3">
+      <h2>一、项目背景与意义</h2>
+      <p>随着信息化教学推进，学生亟需一个集成学习、资源管理与成果展示的一体化平台。</p>
+      <p>本项目旨在解决：课程分散、资料杂乱、答辩展示不便等问题。</p>
+    </div>
+
+    <!-- 第4页：功能设计 -->
+    <div class="slide" id="slide4">
+      <h2>二、系统功能设计</h2>
+      <ul>
+        <li>✅ 综合学习平台（集成 e 学堂）</li>
+        <li>✅ 接口管理中心（常用网站快捷入口）</li>
+        <li>✅ 资源下载中心（个人资料共享）</li>
+        <li>✅ 答辩展示专区（毕设成果在线演示）</li>
+      </ul>
+    </div>
+
+    <!-- 第5页：技术栈 -->
+    <div class="slide" id="slide5">
+      <h2>三、技术实现方案</h2>
+      <p><strong>前端：</strong>HTML5 + CSS3 + JavaScript（纯静态，无框架）</p>
+      <p><strong>兼容性：</strong>专为 Microsoft Edge 优化</p>
+      <p><strong>部署：</strong>本地运行 / Nginx 静态托管</p>
+    </div>
+
+    <!-- 第6页：界面展示 -->
+    <div class="slide" id="slide6">
+      <h2>四、核心界面展示</h2>
+      <p>（此处可替换为截图或描述）</p>
+      <p>• 首页导航清晰<br>• 公告系统可管理<br>• 资源下载便捷</p>
+    </div>
+
+    <!-- 第7页：总结 -->
+    <div class="slide" id="slide7">
+      <h2>五、总结与展望</h2>
+      <p>本系统已实现基本功能，满足个人学术管理需求。</p>
+      <p>未来可扩展：用户登录、多端同步、AI 助教等模块。</p>
+    </div>
+
+    <!-- 第8页：致谢 -->
+    <div class="slide" id="slide8">
+      <h2>感谢聆听！</h2>
+      <p style="margin-top: 30px; font-size: 1.8em;">恳请各位老师批评指正</p>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    // 初始化
+    function showSlide(index) {
+      if (index < 0 || index >= totalSlides) return;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      currentSlide = index;
+    }
+
+    // 翻页控制
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    // 键盘控制
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    // 全屏 API
+    function requestFullscreen() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    }
+
+    // 检测是否全屏，显示提示
+    function checkFullscreen() {
+      const isFullscreen = document.fullscreenElement || 
+                          document.webkitFullscreenElement || 
+                          document.mozFullScreenElement || 
+                          document.msFullscreenElement;
+      document.getElementById('fullscreenTip').style.display = isFullscreen ? 'none' : 'block';
+    }
+
+    document.addEventListener('fullscreenchange', checkFullscreen);
+    document.addEventListener('webkitfullscreenchange', checkFullscreen);
+    document.addEventListener('mozfullscreenchange', checkFullscreen);
+    document.addEventListener('MSFullscreenChange', checkFullscreen);
+
+    // 初始检查
+    setTimeout(checkFullscreen, 1000);
+  </script>
+        <!-- ✅ 合规备案信息 -->
+      <div class="compliance-info" style="
+        position: absolute;
+        bottom: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid #d0e0e8;
+        border-radius: 12px;
+        padding: 10px 18px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        z-index: 10;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #333;
+        text-align: center;
+        word-wrap: break-word;
+      ">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+          <a href="https://beian.miit.gov.cn" target="_blank" style="color: #333; text-decoration: none;">
+            苏ICP备XXXXXXXX号-X
+          </a>
+          <span>｜</span>
+          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=320XXXXXXXXXXXXX" 
+             target="_blank" 
+             style="color: #333; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+            <img src="police-logo.png" 
+                 alt="公安备案" 
+                 style="width: 14px; height: 14px; vertical-align: middle;">
+            苏公网安备 ：目前正在公安备案中 
+          </a>
+        </div>
+        <div class="copyright-text">
+          &copy; 2026 橘络微光集 · 面向私有云环境的传统IT业务集成实践 · 毕业设计展示平台
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

@@ -3,194 +3,195 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>橘络云服务 - 个人中心</title>
-  <link rel="icon" href="logo.png" sizes="any" type="image/png">
-  <link rel="preload" as="image" href="background.jpg" fetchpriority="low" />
-
+  <title>橘络微光集 - 个人中心</title>
+  <link rel="icon" href="logo.png" type="image/png">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Microsoft YaHei", sans-serif;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft YaHei", sans-serif; }
+    
     body {
       background-image: url('background.jpg');
       background-size: cover;
-      background-position: center -60px;
+      background-position: center;
       background-repeat: no-repeat;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      color: #333;
-      overflow-x: hidden;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
       position: relative;
     }
 
-    .back-home-btn {
+    /* 右上角关闭按钮 */
+    .close-btn {
       position: fixed;
-      top: 15px;
-      right: 15px;
-      width: 36px;
-      height: 36px;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
       background: rgba(255, 255, 255, 0.9);
-      border: 1px solid #ccc;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 20px;
+      font-size: 24px;
       color: #888;
       cursor: pointer;
       z-index: 100;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      border: 1px solid #eee;
     }
-    .back-home-btn:hover {
+    .close-btn:hover {
       background: #e3f2fd;
       color: #27ae60;
       transform: scale(1.1);
-      border-color: #27ae60;
-    }
-
-    .login-container {
-      max-width: 400px;
-      margin: 100px auto;
-      padding: 0 20px;
-      width: 100%;
     }
 
     .login-card {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(12px);
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-      padding: 36px 32px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      width: 100%;
+      max-width: 400px;
       border: 1px solid rgba(255,255,255,0.5);
     }
-
-    .login-card h2 {
-      text-align: center;
-      font-size: 24px;
-      color: #2c3e50;
-      margin-bottom: 24px;
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 500;
-      color: #2c3e50;
-    }
-
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 500; }
     .form-group input {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      transition: border 0.2s;
+      width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;
     }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: #3498db;
-    }
-
     .btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s;
+      width: 100%; padding: 10px; border: none; border-radius: 6px;
+      font-size: 16px; cursor: pointer; margin-top: 10px;
     }
-
-    .login-btn {
-      background: #3498db;
-      color: white;
-      margin-bottom: 16px;
-    }
-    .login-btn:hover {
-      background: #2980b9;
-    }
-
-    .register-btn {
-      background: #e74c3c;
-      color: white;
-    }
-    .register-btn:hover {
-      background: #c0392b;
-    }
-
-    @media (max-width: 480px) {
-      .login-card {
-        padding: 28px 20px;
-      }
-    }
+    .login-btn { background: #1890ff; color: white; }
+    .register-btn { background: #ff4d4f; color: white; }
   </style>
 </head>
-
 <body>
-  <!-- 保留原叉号逻辑 -->
-  <div class="back-home-btn" onclick="window.location.href='index.html'">×</div>
+  <!-- 右上角返回首页按钮 -->
+  <div class="close-btn" onclick="window.location.href='index.html'">×</div>
 
-  <!-- 登录表单卡片 -->
-  <div class="login-container">
-    <div class="login-card">
-      <h2>橘络云服务</h2>
-      <div class="form-group">
-        <label for="username">账号</label>
-        <input type="text" id="username" placeholder="请输入账号" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label for="password">密码</label>
-        <input type="password" id="password" placeholder="请输入密码">
-      </div>
-      <button class="btn login-btn" onclick="attemptLogin()">🔑 登录</button>
-      <button class="btn register-btn" onclick="alert('非内部人员禁止注册')">🚫 注册账号</button>
+  <div class="login-card">
+    <h2 style="text-align:center; margin-bottom:24px;">橘络云服务</h2>
+    <div class="form-group">
+      <label for="username">账号</label>
+      <input type="text" id="username" placeholder="请输入账号">
     </div>
+    <div class="form-group">
+      <label for="password">密码</label>
+      <input type="password" id="password" placeholder="请输入密码">
+    </div>
+    <button class="btn login-btn" onclick="attemptLogin()">🔑 登录</button>
+    <button class="btn register-btn" onclick="alert('非内部人员禁止注册')">🚫 注册</button>
   </div>
 
   <script>
-    // 页面淡入效果（保留原逻辑）
-    document.documentElement.style.visibility = 'hidden';
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        requestAnimationFrame(() => {
-          document.documentElement.style.visibility = '';
-        });
-      });
-    } else {
-      document.documentElement.style.visibility = '';
-    }
+    // 【核心】用户数据库（必须和 profile.html 完全一致！）
+    const USERS = {
+      "17851906935": { pwd: "250206TStyj@", name: "汤永健", email: "2128696247@qq.com", bio: "尊敬的用户您好：您要修改账户信息请联系管理员邮箱并将修改的附件；例如：头像等信息！发布给：2128696247@qq.com", role: "平台开发者" },
+      "bob":     { pwd: "secret456", name: "鲍勃",     email: "bob@juluo.com",     bio: "后端开发",   role: "开发者" },
+      "charlie": { pwd: "mypwd789",  name: "查理",     email: "charlie@juluo.com", bio: "测试工程师", role: "测试员" },
+      "123":     { pwd: "456",       name: "游客",      email: "guest@juluo.com",   bio: "临时账号",   role: "访客" },
+      "1234":    { pwd: "5678",      name: "新用户",    email: "user1234@juluo.com", bio: "双格式测试", role: "测试员" },
+      "wxic":    { pwd: "wxic",      name: "无锡商院师生专用账号",    email: "wxic@juluo.com", bio: "毕业设计观赏账号", role: "观赏员" }
+    };
 
-    // 登录逻辑：无论输入什么都失败
     function attemptLogin() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value.trim();
 
-      // 不验证内容，直接提示错误
-      alert('账号或密码错误，或该账号未注册。');
-      
-      // 可选：清空输入框
-      document.getElementById('username').value = '';
-      document.getElementById('password').value = '';
+      if (!u || !p) {
+        alert('请输入账号和密码');
+        return;
+      }
+
+      const user = USERS[u];
+      if (user && user.pwd === p) {
+        // ✅ 改为统一认证格式（兼容 index.html 和 profile.html）
+        localStorage.setItem('橘络云服务_auth', JSON.stringify({
+          username: u,
+          timestamp: Date.now()
+        }));
+        alert(`欢迎，${user.name}！`);
+        window.location.href = 'profile.html';
+      } else {
+        alert('账号或密码错误');
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+      }
     }
 
     // 支持回车登录
-    document.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        attemptLogin();
+    document.addEventListener('keypress', e => {
+      if (e.key === 'Enter') attemptLogin();
+    });
+
+    // 👇【关键】页面加载时自动检查是否已登录（使用统一凭证）
+    window.addEventListener('DOMContentLoaded', () => {
+      let username = null;
+      try {
+        const auth = localStorage.getItem('橘络云服务_auth');
+        if (auth) {
+          const data = JSON.parse(auth);
+          username = data.username;
+        }
+      } catch (e) {
+        // 凭证无效，忽略
       }
+
+      if (username && USERS[username]) {
+        // 已登录 → 直接跳转到个人主页
+        window.location.href = 'profile.html';
+      }
+      // 否则保留登录界面（默认）
     });
   </script>
+        <!-- ✅ 合规备案信息 -->
+      <div class="compliance-info" style="
+        position: absolute;
+        bottom: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid #d0e0e8;
+        border-radius: 12px;
+        padding: 10px 18px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        z-index: 10;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #333;
+        text-align: center;
+        word-wrap: break-word;
+      ">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+          <a href="https://beian.miit.gov.cn" target="_blank" style="color: #333; text-decoration: none;">
+            苏ICP备2026009392号
+          </a>
+          <span>｜</span>
+          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=320XXXXXXXXXXXXX" 
+             target="_blank" 
+             style="color: #333; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+            <img src="police-logo.png" 
+                 alt="公安备案" 
+                 style="width: 14px; height: 14px; vertical-align: middle;">
+            苏公网安备 ：目前正在公安备案中 
+          </a>
+        </div>
+        <div class="copyright-text">
+          &copy; 2026 橘络微光集 · 面向私有云环境的传统IT业务集成实践 · 毕业设计展示平台
+        </div>
+      </div>
+
+    </div>
+  </div>
 </body>
 </html>

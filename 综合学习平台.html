@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>橘络云服务 - 综合学习平台</title>
+  <title>橘络微光集 - 综合学习平台</title>
 
   <!-- 替换浏览器标签页小球图标为 logo.png -->
   <link rel="icon" href="logo.png" sizes="any" type="image/png">
@@ -160,21 +160,18 @@
       margin: 0 auto;
     }
 
-    .update-btn {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 24px;
-      background: #3498db;
-      color: white;
+    /* 新增：跳转文字样式 */
+    .jump-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: #1890ff;
+      text-decoration: underline;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
-      margin-top: 10px;
-      transition: all 0.2s ease;
     }
-    .update-btn:hover {
-      background: #2980b9;
-      transform: scale(1.02);
+    .jump-link:hover {
+      opacity: 0.8;
     }
 
     .add-course-btn {
@@ -247,7 +244,6 @@
       color: #666;
     }
 
-    /* ⚠️ 唯一修改点：× 按钮跳转地址 */
     .back-home-btn {
       position: fixed;
       top: 15px;
@@ -275,7 +271,6 @@
       border-color: #3498db;
     }
 
-    /* —— 商院E学堂嵌入样式 —— */
     #shangyuan-embedded-iframe {
       display: none;
       width: 100%;
@@ -321,7 +316,6 @@
 
 <body><script>if(document.documentElement.style.visibility='hidden',document.readyState==='loading'){requestAnimationFrame(()=>{document.documentElement.style.visibility=''})}</script>
 
-  <!-- ✅ 跳转回主页 -->
   <div class="back-home-btn" onclick="window.location.href='index.html'">×</div>
 
   <div class="tabs-container">
@@ -365,26 +359,17 @@
     </div>
   </div>
 
-  <!-- 改名模态框 -->
-  <div id="renameModal" class="modal">
-    <div class="modal-content">
-      <h3>修改课程名称</h3>
-      <div class="input-group">
-        <label for="newCourseTitle">新课程名称</label>
-        <input type="text" id="newCourseTitle" placeholder="请输入新名称">
-      </div>
-      <button class="submit-btn" onclick="confirmRename()">确认</button>
-      <button class="submit-btn cancel-btn" onclick="closeRenameModal()">取消</button>
-    </div>
-  </div>
-
-  <!-- 添加课程模态框 -->
+  <!-- 添加课程模态框（新增 url 输入） -->
   <div id="addCourseModal" class="modal">
     <div class="modal-content">
       <h3>添加新课程</h3>
       <div class="input-group">
         <label for="newCourseName">课程名称</label>
         <input type="text" id="newCourseName" placeholder="例如：高等数学">
+      </div>
+      <div class="input-group">
+        <label for="newCourseUrl">课程链接（必填）</label>
+        <input type="url" id="newCourseUrl" placeholder="https://example.com/course">
       </div>
       <div class="input-group">
         <label for="newQrFile">二维码图片（可选）</label>
@@ -395,7 +380,7 @@
     </div>
   </div>
 
-  <!-- 华为模态框 -->
+  <!-- 华为模态框（保留） -->
   <div id="huaweiModal" class="modal" style="display: none;">
     <div class="modal-content" style="width: 400px; max-width: 90vw; padding: 20px; position: relative;">
       <span onclick="closeHuaweiModal()" style="position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #999; font-weight: bold;">&times;</span>
@@ -411,36 +396,34 @@
   </div>
 
   <script>
-    // ====== ✅ 严格按照你的要求修改 courseData（仅此一处改动） ======
+    // ✅ 修改 courseData：新增 url 字段（请替换为真实链接）
     const courseData = {
       myCourses: [
-        { id: 'course1', title: '网络系统管理赛项总课程', qrUrl: '1-1.png' },
-        { id: 'course2', title: '网络构建', qrUrl: '1-2.png' },
-        { id: 'course3', title: 'Windows server服务部署', qrUrl: '1-3.png' },
-        { id: 'course4', title: 'Linux服务部署', qrUrl: '1-4.png' }
+        { id: 'course1', title: '网络系统管理赛项总课程', qrUrl: '1-1.png', url: 'https://wxic.fanya.chaoxing.com/portal/course/123' },
+        { id: 'course2', title: '网络构建', qrUrl: '1-2.png', url: 'https://wxic.fanya.chaoxing.com/portal/course/124' },
+        { id: 'course3', title: 'Windows server服务部署', qrUrl: '1-3.png', url: 'https://wxic.fanya.chaoxing.com/portal/course/125' },
+        { id: 'course4', title: 'Linux服务部署', qrUrl: '1-4.png', url: 'https://wxic.fanya.chaoxing.com/portal/course/126' }
       ],
       myTeach: [
-        { id: 'course5', title: '华为ICT', qrUrl: '2-1.png' },
-        { id: 'course6', title: '锐捷ICT', qrUrl: '2-2.png' },
-        { id: 'course7', title: '新华三ICT', qrUrl: '2-3.png' },
-        { id: 'course8', title: '网络安全', qrUrl: '2-4.png' }
+        { id: 'course5', title: '华为ICT', qrUrl: '2-1.png', url: 'https://e.huawei.com/cn/talent/' },
+        { id: 'course6', title: '锐捷ICT', qrUrl: '2-2.png', url: 'https://www.ruijie.com.cn/' },
+        { id: 'course7', title: '新华三ICT', qrUrl: '2-3.png', url: 'https://www.h3c.com/cn/' },
+        { id: 'course8', title: '网络安全', qrUrl: '2-4.png', url: 'https://www.freebuf.com/' }
       ],
-      extra: [{ id: 'extra1', title: 'Linux系统运维教程', qrUrl: '3-1.png' }],
-      cert: [{ id: 'cert1', title: '考证系统', qrUrl: '4-1.png' }],
-      hobby: [{ id: 'hobby1', title: '网络计算模式部署与运维', qrUrl: '5-1.png' }],
-      teachRes: [{ id: 'res1', title: 'Python自动化运维与应用开发', qrUrl: '6-1.png' }],
-      intern: [{ id: 'intern1', title: 'WEB界面UI设计与前后两端的应用开发', qrUrl: '7-1.png' }],
-      thesis: [{ id: 'thesis1', title: '心理咨询师考证', qrUrl: '8-1.png' }]
+      extra: [{ id: 'extra1', title: 'Linux系统运维教程', qrUrl: '3-1.png', url: 'https://linux.do/' }],
+      cert: [{ id: 'cert1', title: '考证系统', qrUrl: '4-1.png', url: 'https://www.ntce.cn/' }],
+      hobby: [{ id: 'hobby1', title: '网络计算模式部署与运维', qrUrl: '5-1.png', url: 'https://aws.amazon.com/cn/' }],
+      teachRes: [{ id: 'res1', title: 'Python自动化运维与应用开发', qrUrl: '6-1.png', url: 'https://www.python.org/' }],
+      intern: [{ id: 'intern1', title: 'WEB界面UI设计与前后两端的应用开发', qrUrl: '7-1.png', url: 'https://developer.mozilla.org/zh-CN/' }],
+      thesis: [{ id: 'thesis1', title: '心理咨询师考证', qrUrl: '8-1.png', url: 'http://www.chinacounselor.org/' }]
     };
 
-    // ========== 原有课程功能（完全保留） ==========
     window.currentCourseId = null;
-    window.renameCourseId = null;
     window.selectedCourseIdForDelete = null;
     window.authPurpose = null;
     window.currentActiveTab = 'studyEntry';
 
-    // ✅ 渲染卡片（使用 course.qrUrl）
+    // ✅ 渲染卡片：用“跳转课程学习界面”文字替代按钮
     function renderCourseGrid(tab) {
       const grid = document.getElementById('courseGrid');
       grid.innerHTML = '';
@@ -463,27 +446,22 @@
         title.className = 'course-title';
         title.textContent = course.title;
 
-        const btnGroup = document.createElement('div');
-        btnGroup.style.display = 'flex';
-        btnGroup.style.gap = '8px';
-        btnGroup.style.justifyContent = 'center';
-
-        const updateBtn = document.createElement('button');
-        updateBtn.className = 'update-btn';
-        updateBtn.textContent = '更新二维码';
-        updateBtn.onclick = () => showQrModal(course.id);
-
-        const renameBtn = document.createElement('button');
-        renameBtn.className = 'update-btn';
-        renameBtn.textContent = '改名';
-        renameBtn.onclick = () => showRenameModal(course.id);
-
-        btnGroup.appendChild(updateBtn);
-        btnGroup.appendChild(renameBtn);
+        // ✅ 新增：跳转文字
+        const jumpLink = document.createElement('span');
+        jumpLink.className = 'jump-link';
+        jumpLink.textContent = '跳转课程学习界面';
+        jumpLink.onclick = function(e) {
+          e.stopPropagation(); // ⚠️ 阻止冒泡，避免触发卡片选中
+          if (course.url) {
+            window.open(course.url, '_blank');
+          } else {
+            alert('该课程暂无学习链接');
+          }
+        };
 
         card.appendChild(img);
         card.appendChild(title);
-        card.appendChild(btnGroup);
+        card.appendChild(jumpLink);
 
         grid.appendChild(card);
       });
@@ -519,18 +497,6 @@
       window.currentActiveTab = tab;
     }
 
-    function showQrModal(courseId) {
-      window.currentCourseId = courseId;
-      window.authPurpose = 'qr';
-      openAuthModal();
-    }
-
-    function showRenameModal(courseId) {
-      window.renameCourseId = courseId;
-      window.authPurpose = 'rename';
-      openAuthModal();
-    }
-
     function showAddCourseAuth() {
       window.authPurpose = 'add';
       openAuthModal();
@@ -561,13 +527,7 @@
       if (username === 'admin' && password === '123456') {
         closeModal();
 
-        // ✅ 原有课程逻辑（完全未动）
-        if (window.authPurpose === 'rename') {
-          document.getElementById('newCourseTitle').value = '';
-          document.getElementById('renameModal').style.display = 'flex';
-        } else if (window.authPurpose === 'qr') {
-          uploadNewQR(window.currentCourseId);
-        } else if (window.authPurpose === 'delete') {
+        if (window.authPurpose === 'delete') {
           deleteCourse(window.selectedCourseIdForDelete);
         } else if (window.authPurpose === 'add') {
           openAddCourseModal();
@@ -575,30 +535,6 @@
       } else {
         alert("用户名或密码错误！");
       }
-    }
-
-    // ✅ 修复：更新二维码 → 修改 courseData 并重渲染
-    function uploadNewQR(courseId) {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = function(e) {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function(event) {
-            const tab = window.currentActiveTab;
-            const course = courseData[tab].find(c => c.id === courseId);
-            if (course) {
-              course.qrUrl = event.target.result;
-              renderCourseGrid(tab); // 重新渲染整个 tab
-              alert("二维码已更新！");
-            }
-          };
-          reader.readAsDataURL(file);
-        }
-      };
-      input.click();
     }
 
     function deleteCourse(courseId) {
@@ -612,26 +548,6 @@
       }
     }
 
-    function closeRenameModal() {
-      document.getElementById('renameModal').style.display = 'none';
-    }
-
-    function confirmRename() {
-      const newName = document.getElementById('newCourseTitle').value.trim();
-      if (!newName) {
-        alert("课程名称不能为空！");
-        return;
-      }
-      const tab = window.currentActiveTab;
-      const course = courseData[tab].find(c => c.id === window.renameCourseId);
-      if (course) {
-        course.title = newName;
-        renderCourseGrid(tab);
-        alert("课程名称已更新！");
-      }
-      closeRenameModal();
-    }
-
     function openAddCourseModal() {
       document.getElementById('addCourseModal').style.display = 'flex';
     }
@@ -642,10 +558,18 @@
 
     function addNewCourse() {
       const name = document.getElementById('newCourseName').value.trim();
-      if (!name) {
-        alert("请输入课程名称！");
+      const url = document.getElementById('newCourseUrl').value.trim();
+      if (!name || !url) {
+        alert("课程名称和链接不能为空！");
         return;
       }
+      try {
+        new URL(url);
+      } catch (e) {
+        alert("请输入有效的课程链接（如 https://...）");
+        return;
+      }
+
       const tab = window.currentActiveTab;
       const newId = `${tab}${Date.now()}`;
       const file = document.getElementById('newQrFile').files[0];
@@ -653,21 +577,13 @@
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          courseData[tab].push({
-            id: newId,
-            title: name,
-            qrUrl: e.target.result
-          });
+          courseData[tab].push({ id: newId, title: name, qrUrl: e.target.result, url: url });
           renderCourseGrid(tab);
           alert("课程添加成功！");
         };
         reader.readAsDataURL(file);
       } else {
-        courseData[tab].push({
-          id: newId,
-          title: name,
-          qrUrl: '初始二维码.jpg'
-        });
+        courseData[tab].push({ id: newId, title: name, qrUrl: '初始二维码.jpg', url: url });
         renderCourseGrid(tab);
         alert("课程添加成功！");
       }
@@ -682,9 +598,12 @@
       document.getElementById('huaweiModal').style.display = 'none';
     }
 
+    // ✅ 保留：点击卡片用于选中（删除）
     document.addEventListener('click', function(e) {
       const card = e.target.closest('.course-card');
       if (card && card.dataset.tab !== 'studyEntry') {
+        // 如果点击的是 jump-link，则不选中
+        if (e.target.closest('.jump-link')) return;
         document.querySelectorAll('.course-card').forEach(c => c.classList.remove('selected-for-delete'));
         card.classList.add('selected-for-delete');
         window.selectedCourseIdForDelete = card.dataset.id;
@@ -707,6 +626,52 @@
       switchTab('studyEntry');
     });
   </script>
+ 
 
+      <!-- ✅ 合规备案信息 -->
+      <div class="compliance-info" style="
+        position: absolute;
+        bottom: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid #d0e0e8;
+        border-radius: 12px;
+        padding: 10px 18px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        z-index: 10;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #333;
+        text-align: center;
+        word-wrap: break-word;
+      ">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+          <a href="https://beian.miit.gov.cn" target="_blank" style="color: #333; text-decoration: none;">
+            苏ICP备2026009392号
+          </a>
+          <span>｜</span>
+          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=320XXXXXXXXXXXXX" 
+             target="_blank" 
+             style="color: #333; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+            <img src="police-logo.png" 
+                 alt="公安备案" 
+                 style="width: 14px; height: 14px; vertical-align: middle;">
+            苏公网安备 ：目前正在公安备案中 
+          </a>
+        </div>
+        <div class="copyright-text">
+          &copy; 2026 橘络微光集 · 面向私有云环境的传统IT业务集成实践 · 毕业设计展示平台
+        </div>
+      </div>
+
+    </div>
+  </div>
 </body>
 </html>
